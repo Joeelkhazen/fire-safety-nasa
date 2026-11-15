@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "No prompt provided." });
   }
 
-  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-3.8-flash";
 
   try {
     const response = await fetch(
@@ -28,8 +28,7 @@ export default async function handler(req, res) {
           contents: [{ role: "user", parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.3,
-            maxOutputTokens: 2048,
-            thinkingConfig: { thinkingBudget: 0 }
+            maxOutputTokens: 4096
           }
         })
       }
