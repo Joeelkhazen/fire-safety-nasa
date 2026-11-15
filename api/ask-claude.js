@@ -14,7 +14,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const apiUrl = "https://" + "://anthropic.com" + "/v1/messages";
+    const host = ["api", "anthropic", "com"].join(".");
+    const apiUrl = "https://" + host + "/v1/messages";
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
