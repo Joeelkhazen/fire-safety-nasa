@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Space fire safety evidence dashboard</title>
+<title>Ember</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
@@ -75,11 +75,52 @@ button[aria-pressed="true"],button[aria-selected="true"]{background:var(--ac);bo
 .tabs button[data-t="ai"]{@apply text-base text-ac font-semibold mr-2.5;box-shadow:inset 0 0 0 1.5px var(--ac)}
 .tabs button[data-t="ai"][aria-selected="true"]{background:var(--ac);color:var(--on);box-shadow:none}
 </style>
+<style>
+html[data-theme=dark]{--bg:#000;--sf:#0A0A0A;--dusk:#000;--hero:#000;--ln:#2A2220;--soft:#121212}html[data-theme=dark],html[data-theme=dark] body{background:#000;color:var(--ink)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:#000;z-index:50}
+#bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#000;border-bottom:1px solid var(--ln)}
+.brand{font-size:13px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ac)}
+#bar button,#dclose{background:none;text-transform:uppercase;letter-spacing:.12em;font-size:12px}
+#drawer{position:fixed;inset:0;z-index:60;background:rgba(10,5,6,.97);display:none;overflow-y:auto;padding-top:env(safe-area-inset-top,0px)}
+#drawer.open{display:block}.dn{max-width:560px;margin:0 auto;padding:16px}
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.dg{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mu);margin:20px 0 6px}
+#dlist button{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--ln);border-radius:0;padding:14px 4px;font-family:"Source Serif 4",Georgia,serif;font-size:24px;color:#FFF6EC}
+#dlist button[aria-current=true]{color:var(--ac)}#dlist small{display:block;font:13px "Source Sans 3",sans-serif;color:var(--mu)}
+.hero{text-align:center;padding:48px 16px 30px;background:#000;border-bottom:6px solid var(--ac)}
+.hero .kick{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#F2B35E;margin:0 0 10px}
+.hero h1{font-size:clamp(34px,8vw,66px);line-height:1.05;color:#FFF6EC;margin:0 0 12px}
+.hero .sub{color:#E9D5C4;margin:0 auto;max-width:46ch}
+.tabs button{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px}
+#habs button{padding:10px 16px;text-transform:uppercase;letter-spacing:.1em;font-size:12px}
+#habs button[aria-pressed=true]{background:var(--ac);border-color:var(--ac);color:var(--on)}
+#sim{width:100%;height:auto;background:#000;border:1px solid var(--ln);display:block}
+.simg{display:grid;gap:12px;grid-template-columns:1fr;margin:12px 0}@media(min-width:700px){.simg{grid-template-columns:1fr 1fr}}
+.simg label{font-size:13px;display:block}
+#map{max-width:780px}
+#map .ax{font-size:14px;font-weight:500;fill:var(--ink);paint-order:stroke;stroke:var(--sf);stroke-width:4px;stroke-linejoin:round}
+@media(max-width:700px){#map .ax{font-size:20px;stroke-width:5px}}
+#wrap{display:flex;flex-direction:column}
+#wrap>#tabs{order:-1;margin-top:0;gap:10px;padding-bottom:10px}
+#habs{gap:12px;margin-bottom:20px}
+.panel{margin-bottom:22px}
+@media(min-width:900px){
+#wrap{max-width:none;margin:0;padding-left:20px;padding-right:32px;display:grid;grid-template-columns:230px minmax(0,1fr);column-gap:32px}
+#wrap>*{grid-column:2;min-width:0}
+#wrap>#tabs{grid-column:1;grid-row:1/span 8;order:0;position:sticky;top:calc(64px + env(safe-area-inset-top,0px));align-self:start;flex-direction:column;gap:12px;border:0;margin:6px 0 0;overflow:visible}
+#wrap>#tabs button{width:100%;text-align:left;border-radius:0;padding:14px 14px;margin:0;white-space:normal}
+#wrap>#tabs button[aria-selected=true]{box-shadow:inset 3px 0 0 var(--ac);background:var(--sf)}
+#wrap>#tabs button[data-t=ai]{box-shadow:inset 0 0 0 1.5px var(--ac);margin-bottom:8px}
+#wrap>#tabs button[data-t=ai][aria-selected=true]{background:var(--ac);box-shadow:none}
+}
+</style>
 </head>
 <body>
-<header style="background:var(--dusk);border-bottom:6px solid var(--ac)"><div class="mx-auto max-w-[1040px] px-4 pt-7 pb-6"><p style="margin:0 0 6px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#F2B35E">NASA Glenn and partners · fire safety evidence</p><h1 class="mb-1.5 text-[clamp(24px,3.6vw,32px)] font-semibold leading-tight" style="color:#FFF6EC">Space fire safety evidence dashboard</h1><p style="color:#E9D5C4;max-width:70ch;margin:0">Find, rank and compare fire research for crewed habitats. Choose a habitat to rank the evidence for it.</p></div></header>
-<div class="mx-auto max-w-[1040px] px-4 pt-5 pb-12">
-<div class="my-3 mb-[18px] border border-l-4 border-ln border-l-ac bg-sf px-3.5 py-2.5 text-sm"><b>Only NASA-sourced records.</b> The ranking holds the one record with a stated pressure and oxygen level (N01); other investigations appear in the Investigations tab and Resources. Lunar and Mars base targets use NASA’s recommended 8.2 psia (56.5 kPa) and 34 % O₂; cabin and rover targets use 10.2 psia (70.3 kPa) and 26.5 % O₂ (R21). Scores follow the weights you set. SI text uses only the loaded records and reference notes, so check the sources.</div>
+<div id="bar"><span class="brand">Ember</span><button id="menub" aria-haspopup="true">Menu</button></div>
+<div id="drawer" aria-label="Menu"><div class="dn"><div class="dh"><span class="brand">Dive in</span><button id="dclose">Close</button></div><div id="dlist"></div></div></div>
+<section class="hero"><p class="kick">NASA fire safety evidence</p><h1>Ember</h1><p class="sub">Pick a habitat, rank the evidence, then watch a flame behave.</p></section>
+<div id="wrap" class="mx-auto max-w-[1040px] px-4 pt-5 pb-12">
+<div class="my-3 mb-[18px] border border-l-4 border-ln border-l-ac bg-sf px-3.5 py-2.5 text-sm"><b>Only NASA-sourced records.</b> The ranking holds the one record with a stated pressure and oxygen level (N01); other investigations appear in the Investigations tab and Resources. Lunar and Mars base targets use NASA’s recommended 8.2 psia (56.5 kPa) and 34 % O₂; cabin and rover targets use 10.2 psia (70.3 kPa) and 26.5 % O₂ (R21). Scores follow the weights you set. The SI answers from the loaded sources first and labels general knowledge and inference, so check the sources.</div>
 
 <div class="row" id="habs" role="group" aria-label="Habitat"></div>
 <div class="panel"><h2 id="mt"></h2><div id="map"></div>
@@ -93,7 +134,7 @@ button[aria-pressed="true"],button[aria-selected="true"]{background:var(--ac);bo
 const $=s=>document.querySelector(s);
 const G={0:"Microgravity",0.16:"Lunar g",0.38:"Mars g",1:"1 g"};
 const GC={0:"--g0",0.16:"--g1",0.38:"--g2",1:"--g3"};
-const FN={material:"Materials",atmosphere:"Atmosphere design",detection:"Detection",suppression:"Suppression",cleanup:"Post-fire cleanup"};
+const FN={material:"Materials",atmosphere:"Atmosphere design",detection:"Detection",suppression:"Suppression",cleanup:"Post-fire cleanup",protection:"Crew protection"};
 const H={st:{n:"Space station",p:101,o:21,g:[0]},sc:{n:"Spacecraft cabin",p:70.3,o:26.5,g:[0]},lu:{n:"Lunar base",p:56.5,o:34,g:[0.16]},ma:{n:"Mars base",p:56.5,o:34,g:[0.38]},ro:{n:"Pressurized rover",p:70.3,o:26.5,g:[0.16,0.38]}};
 const L={match:"Habitat fit",data:"Data available",q:"Method quality",rec:"Recency"};
 const SC={match:"--s1",data:"--s2",q:"--s3",rec:"--s4"};
@@ -102,22 +143,15 @@ const R=[
 ].map(a=>({id:a[0],t:a[1],y:a[2],src:a[3],g:a[4],p:a[5],o:a[6],fuel:a[7],fac:a[8],metric:a[9],val:a[10],m:a[11],fn:a[12],hab:a[13].split(","),d:a[14],q:a[15],c:a[16],low:!!a[17],url:a[18],n:parseFloat(a[10].match(/-?\d+(\.\d+)?/)[0]),u:a[10].replace(/^[^\d-]*-?\d+(\.\d+)?\s*/,"")}));
 
 const S={hab:"lu",tab:"ai",fn:"detection",gs:new Set([0,0.16,0.38,1]),w:{match:3,data:2,q:2,rec:1}};
-const SUM={},AIO={};
-let SMdone=true;
-const SM=async(prompt)=>{
-  const res=await fetch("/api/ask-claude",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({prompt})
-  });
-  const data=await res.json();
-  if(!res.ok||data.error)throw new Error(data.error||"Claude API request failed");
-  return{text:data.text};
-};
+const gerr=m=>{const e=new Error(m);e.code="gem";return e};
+const SM=async(prompt,o)=>{let res,data;try{res=await fetch("/api/ask-gemini",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt})});data=await res.json()}catch(e){throw gerr("Could not reach the server. Try again.")}
+if(!res.ok||data.error)throw gerr(res.status===429?"Gemini free limit reached. Wait a minute, then try again.":(data.error||"Gemini request failed"));
+o&&o.onText&&o.onText({text:data.text});return{text:data.text}};
+const SMdone=true;const SUM={},AIO={};
 const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 const recText=r=>`${r.id}: ${r.t} (${r.y}, ${r.src}); ${G[r.g]}, ${r.p} kPa, ${r.o}% O2; fuel ${r.fuel}; facility ${r.fac}; ${r.metric} = ${r.val}; ${r.m==="exp"?"experiment":"model"}; function: ${FN[r.fn]}; extraction confidence ${r.c}; tested at low or partial gravity: ${r.low?"yes":"no"}`;
 const SYS="You analyze fire safety research for human space exploration. Answer any fire safety question about spacecraft, habitats and crew, including urgent ones from someone in space who needs help. For an urgent situation, lead with the immediate actions in plain short steps, tell them to follow their vehicle’s emergency procedures and contact mission control, and never claim to replace them. Use the loaded records and reference notes first. Where they do not cover the question, answer from your general fire safety, spacecraft and combustion knowledge, and begin that part with General knowledge: so it is clear it did not come from the loaded sources; never give it a citation. Cite record IDs in square brackets, like [N01], for every claim. Records come from real NASA sources (IDs starting with N), and reference documents are cited as [R1] etc.: say when evidence is thin, or when it may not transfer between gravity regimes (microgravity, lunar, Mars, 1 g), between atmospheres, or between experiments and models. Never invent values, mechanisms, or citations. You may draw your own conclusions by combining the sources: when you do, begin the sentence with Inference:, cite the records or references it rests on, and say how confident it is and what evidence would change it. Do not present an inference as something a source states. Highlight key phrases (key values, actions, warnings, the main takeaway of each cited experiment) by wrapping each in double asterisks, like **this**. Do this in the opening phrase and also throughout the explanation: every section and paragraph (Recommendation, Caution, and each similar experiment) needs 1 to 3 highlights, so the highlights are never limited to the first line. Use no other markdown. Plain text, short paragraphs, no markdown headers.";
-async function ai(p,o,b,st){o.textContent="Thinking…";b.disabled=true;try{const r=await SM(SYS+refs()+"\n\n"+p,{cache:false,onText:({text})=>{o.innerHTML=hl(text)}});o.innerHTML=hl(r.text);st(r.text)}catch(e){o.textContent=e&&e.code==="not_granted"?"Claude access wasn’t granted for this page.":e&&e.code==="rate_limited"?"Too many requests. Wait a moment, then try again.":"The request failed. Try again."}finally{b.disabled=false}}
+async function ai(p,o,b,st){o.textContent="Thinking…";b.disabled=true;try{const r=await SM(SYS+refs()+"\n\n"+p,{cache:false,onText:({text})=>{o.innerHTML=hl(text)}});o.innerHTML=hl(r.text);st(r.text)}catch(e){o.textContent=e&&e.code==="gem"?e.message:e&&e.code==="rate_limited"?"Too many requests. Wait a moment, then try again.":"The request failed. Try again."}finally{b.disabled=false}}
 const hl=s=>esc(s).replace(/\*\*([^*]+)\*\*/g,"<mark>$1</mark>").replace(/\*\*/g,"");
 function fmt(t,done){const m=t.split(/\n[ \t]*Topics to explore:?[ \t]*(?:\n|$)/i),L=m[0].trim().split("\n"),ph=L.shift();
 let h=`<div class="ai"><b>${hl(ph)}</b>\n${hl(L.join("\n"))}</div>`;
@@ -127,8 +161,9 @@ async function ask2(p,label,b){const root=$("#ao"),box=document.createElement("d
 box.innerHTML=`<p class="mu" style="margin:0 0 6px">${esc(label)}</p><div class="body"><div class="ai">Thinking…</div></div>`;root.appendChild(box);
 const body=box.querySelector(".body");if(b)b.disabled=true;
 try{const r=await SM(SYS+refs()+"\n\n"+p,{cache:false,onText:({text})=>{body.innerHTML=fmt(text,false)}});body.innerHTML=fmt(r.text,true);AIO.thread=root.innerHTML}
-catch(e){if(b&&b.id!=="askb")b.disabled=false;body.textContent=e&&e.code==="not_granted"?"Claude access wasn’t granted for this page.":e&&e.code==="rate_limited"?"Too many requests. Wait a moment, then try again.":"The request failed. Try again."}
+catch(e){if(b&&b.id!=="askb")b.disabled=false;body.textContent=e&&e.code==="gem"?e.message:e&&e.code==="rate_limited"?"Too many requests. Wait a moment, then try again.":"The request failed. Try again."}
 finally{if(b&&b.id==="askb")b.disabled=false}}
+
 
 function comps(r){const h=H[S.hab];const atm=Math.max(0,1-Math.hypot((r.p-h.p)/40,(r.o-h.o)/15));
 const gf=h.g.includes(r.g)?1:r.g===1?.2:r.g===0?.35:.6;
@@ -136,18 +171,24 @@ return{match:(atm+gf)/2,data:r.d,q:r.q,rec:Math.min(1,Math.max(0,(r.y-2016)/8))}
 function rank(){const sum=Object.values(S.w).reduce((a,b)=>a+b,0)||1;
 return R.map(r=>{const c=comps(r),parts={};let t=0;for(const k in S.w){parts[k]=S.w[k]*c[k]/sum*100;t+=parts[k]}return{r,parts,t,c}}).sort((a,b)=>b.t-a.t)}
 
-function drawMap(rk){const X0=48,X1=624,Y0=14,Y1=262,sx=o=>X0+(o-15)/25*(X1-X0),sy=p=>Y1-(p-40)/70*(Y1-Y0);
-let s='<svg viewBox="0 0 640 300" role="img" aria-label="Test pressure versus oxygen fraction for each record, colored by gravity level">';
-for(let o=15;o<=40;o+=5)s+=`<line class="gl" x1="${sx(o)}" x2="${sx(o)}" y1="${Y0}" y2="${Y1}"/><text class="ax" x="${sx(o)}" y="${Y1+16}" text-anchor="middle">${o}</text>`;
-for(let p=40;p<=110;p+=10)s+=`<line class="gl" x1="${X0}" x2="${X1}" y1="${sy(p)}" y2="${sy(p)}"/><text class="ax" x="${X0-6}" y="${sy(p)+4}" text-anchor="end">${p}</text>`;
-s+=`<text class="ax" x="${(X0+X1)/2}" y="296" text-anchor="middle">Oxygen in test atmosphere (%)</text><text class="ax" transform="translate(12 ${(Y0+Y1)/2}) rotate(-90)" text-anchor="middle">Pressure (kPa)</text>`;
-const h=H[S.hab];
-s+=`<circle cx="${sx(h.o)}" cy="${sy(h.p)}" r="20" fill="none" style="stroke:var(--ink)" stroke-width="1.5" stroke-dasharray="4 3"/><text class="ax" style="fill:var(--ink);font-weight:600" x="${sx(h.o)+24}" y="${sy(h.p)-18}">${h.n} target</text>`;
-rk.forEach((e,i)=>{const r=e.r,k=R.indexOf(r),jx=((k*7)%9-4)*3.2,jy=((k*5)%7-3)*3.2,top=i<3;
-s+=`<circle cx="${sx(r.o)+jx}" cy="${sy(r.p)+jy}" r="${(5+e.t/100*9).toFixed(1)}" style="fill:var(${GC[r.g]});fill-opacity:${top?.95:.55};stroke:var(--ink)" stroke-width="${top?2:0}"><title>${r.id} · ${r.t} · score ${e.t.toFixed(0)}</title></circle>`});
+function drawMap(rk){const X0=56,X1=620,Y0=16,Y1=258,sx=o=>X0+(o-10)/90*(X1-X0),sy=p=>Y1-(p-20)/95*(Y1-Y0);
+let s='<svg viewBox="0 0 640 300" role="img" aria-label="Test pressure versus oxygen for each record, with the chosen habitat as a crosshair and NASA reference atmospheres as diamonds">';
+s+=`<rect x="${X0}" y="${Y0}" width="${X1-X0}" height="${Y1-Y0}" style="fill:var(--soft)" fill-opacity=".45"/>`;
+for(let p=20;p<=110;p+=10)s+=`<line class="gl" x1="${X0}" x2="${X1}" y1="${sy(p)}" y2="${sy(p)}"/><text class="ax" x="${X0-8}" y="${sy(p)+4}" text-anchor="end">${p}</text>`;
+for(let o=10;o<=100;o+=10)s+=`<line style="stroke:var(--mu)" x1="${sx(o)}" x2="${sx(o)}" y1="${Y1}" y2="${Y1+5}"/><text class="ax" x="${sx(o)}" y="${Y1+18}" text-anchor="middle">${o}%</text>`;
+s+=`<text class="ax" x="${(X0+X1)/2}" y="296" text-anchor="middle">Oxygen in test atmosphere</text><text class="ax" transform="translate(13 ${(Y0+Y1)/2}) rotate(-90)" text-anchor="middle">Pressure (kPa)</text>`;
+const h=H[S.hab],tx=sx(h.o),ty=sy(h.p);
+[["Earth air",101.3,21],["10.2 psia airlock",70.3,26.5],["8.2 psia exploration",56.5,34],["Spacesuit",29.6,100]].forEach((a,i)=>{if(a[1]===h.p&&a[2]===h.o)return;const x=sx(a[2]),y=sy(a[1]);
+s+=`<rect x="${x-8}" y="${y-8}" width="16" height="16" transform="rotate(45 ${x} ${y})" style="fill:var(--sf);stroke:var(--mu)" stroke-width="1.5"/><text x="${x}" y="${y+4}" text-anchor="middle" style="font-size:12px;font-weight:700;fill:var(--ink)">${i+1}</text>`});
+s+=`<line x1="${X0}" x2="${X1}" y1="${ty}" y2="${ty}" style="stroke:var(--ac)" stroke-width="1" stroke-dasharray="2 5"/><line x1="${tx}" x2="${tx}" y1="${Y0}" y2="${Y1}" style="stroke:var(--ac)" stroke-width="1" stroke-dasharray="2 5"/>`;
+s+=`<circle cx="${tx}" cy="${ty}" r="10" fill="none" style="stroke:var(--ac)" stroke-width="2"/><circle cx="${tx}" cy="${ty}" r="2.5" style="fill:var(--ac)"/><text class="ax" style="fill:var(--ac);font-weight:600" x="${tx+14}" y="${ty-12}">${h.n} target</text>`;
+rk.forEach((e,i)=>{const r=e.r,top=i<3,cx=sx(r.o),cy=sy(r.p),rad=6+e.t/100*8;
+s+=`<line x1="${cx}" y1="${cy}" x2="${tx}" y2="${ty}" style="stroke:var(--mu)" stroke-width="1" stroke-opacity=".5"/>`;
+s+=`<circle cx="${cx}" cy="${cy}" r="${rad.toFixed(1)}" style="stroke:var(${GC[r.g]});fill:var(${GC[r.g]});fill-opacity:.18" stroke-width="${top?3:1.5}"><title>${r.id} · ${r.t} · score ${e.t.toFixed(0)}</title></circle><circle cx="${cx}" cy="${cy}" r="3.5" style="fill:var(${GC[r.g]})"/>`;
+});
 $("#map").innerHTML=s+"</svg>";
-$("#mt").textContent="Where the evidence sits relative to the "+h.n.toLowerCase()+" atmosphere";
-$("#leg").innerHTML=Object.keys(G).map(g=>`<span><i class="dot" style="background:var(${GC[g]})"></i>${G[g]}</span>`).join("")+"<span>Larger dots score higher. Outlined dots are the top three. Positions are nudged so overlapping records stay visible.</span>"}
+$("#mt").textContent="How close each test is to the "+h.n.toLowerCase()+" atmosphere";
+$("#leg").innerHTML=Object.keys(G).map(g=>`<span><i class="dot" style="background:var(${GC[g]})"></i>${G[g]}</span>`).join("")+"<span>Numbered diamonds are NASA reference atmospheres (R21): 1 Earth air, 2 10.2 psia airlock, 3 8.2 psia exploration, 4 Spacesuit. Crosshair: chosen habitat. Ring size: score.</span>"+(rk[0]?`<span>${rk[0].r.id} sits ${(rk[0].r.o-h.o>=0?"+":"")+(rk[0].r.o-h.o).toFixed(1)} % O₂ and ${(rk[0].r.p-h.p>=0?"+":"")+(rk[0].r.p-h.p).toFixed(1)} kPa from the target.</span>`:"")}
 
 const tag=r=>`<span class="tag g" style="border-color:var(${GC[r.g]})">${G[r.g]}</span><span class="tag">${r.p} kPa, ${r.o} % O₂</span><span class="tag">${r.src}, ${r.y}</span><span class="tag">${r.m==="exp"?"Experiment":"Model"}</span>`;
 const conf=r=>r.c==="low"?'<span class="tag w">Low-confidence extraction: check before use</span>':r.c==="med"?'<span class="tag">Medium confidence</span>':'<span class="tag k">High confidence</span>';
@@ -173,11 +214,12 @@ $("#view").innerHTML=`<div class="panel"><h2>Records for predictive modeling</h2
 <div class="tw"><table><thead><tr><th>ID</th><th>Gravity</th><th>kPa</th><th>O₂ %</th><th>Fuel</th><th>Metric</th><th>Value</th><th>Type</th><th>Confidence</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.id}</td><td>${G[r.g]}</td><td>${r.p}</td><td>${r.o}</td><td>${r.fuel}</td><td>${r.metric}</td><td>${r.val}</td><td>${r.m==="exp"?"Experiment":"Model"}</td><td>${r.c}</td></tr>`).join("")}</tbody></table></div>
 <div class="row"><button id="csvb">Copy ${rows.length} rows as CSV</button></div><textarea id="csv" hidden aria-label="CSV data" readonly>${csv.replace(/</g,"&lt;")}</textarea></div>`}
 
-function ctlView(){
-const rk=rank().filter(e=>e.r.fn===S.fn),lo=rk.filter(e=>e.r.low).length;
-$("#view").innerHTML=`<div class="row" role="group" aria-label="Safety function">${Object.keys(FN).map(f=>`<button data-f="${f}" aria-pressed="${S.fn===f}">${FN[f]} (${R.filter(r=>r.fn===f).length})</button>`).join("")}</div>
-<p>${lo} of ${rk.length} ${FN[S.fn].toLowerCase()} records tested at microgravity or partial gravity. Ground-only results may not transfer to low gravity, so they are flagged.</p>
-${rk.map(e=>card(e,0).replace('<div class="tags">','<div class="tags">'+(e.r.low?'<span class="tag k">Tested at low or partial g</span>':'<span class="tag w">Ground-only: may not transfer</span>'))).join("")}`}
+const EQ=[{"fn": "detection", "t": "SAME and SAME-2 smoke measurements", "k": "Flight experiment", "d": "Measured smoke particle size distributions on orbit (Expedition 15 in 2007, Expedition 24 in 2010) to improve spacecraft detector design. SAME-2 added a prototype two-moment smoke detector and moment measures.", "c": "The ISS forward light-scattering detector responded less to the smallest particles, so a detector tuned on Earth smoke may miss small-particle fires.", "s": ["R18", "R19"]}, {"fn": "detection", "t": "Brunswick incipient fire detector", "k": "NASA spinoff", "d": "Originally used in space shuttle orbiters. It samples air for combustion particles and can tell them from dust, which cuts false alarms.", "c": "Described in a 1978 spinoff; not a record of current ISS hardware.", "s": ["R15"]}, {"fn": "detection", "t": "DAFT: modified P-Trak check", "k": "Flight experiment", "d": "Checked that a modified P-Trak, a component of SAME, performs properly in microgravity.", "c": "", "s": ["R8"]}, {"fn": "detection", "t": "ISS fire detection and response phases", "k": "ISS operations", "d": "ISS fire detection and suppression covers smoke detection, fire isolation, fire extinguishment and fire recovery.", "c": "", "s": ["R25"]}, {"fn": "suppression", "t": "Carbon dioxide extinguisher (US segment)", "k": "ISS equipment", "d": "The ISS carries a CO₂ extinguisher in the US segment.", "c": "ISS emergency breathing equipment does not filter CO₂, so using it needs an oxygen supply, which raises oxygen in a fire.", "s": ["R24"]}, {"fn": "suppression", "t": "Water-foam extinguisher (Russian segment)", "k": "ISS equipment", "d": "The Russian segment carries a water-foam extinguisher. Mir crew also used foam extinguishers on the 1997 fire.", "c": "", "s": ["R24", "R13"]}, {"fn": "suppression", "t": "Fine water mist extinguisher", "k": "NASA development", "d": "NASA developed a nontoxic fine water mist extinguisher that puts out fire mostly by removing heat, without creating a hazardous breathing environment.", "c": "A development paper from 2013; check current ISS use.", "s": ["R24"]}, {"fn": "suppression", "t": "FLEX: inert-gas suppressants", "k": "Flight experiment", "d": "Assessed how well inert-gas suppressants work in microgravity and gave the most conservative estimate of the limiting oxygen index for steady combustion.", "c": "", "s": ["R8"]}, {"fn": "suppression", "t": "Extinguishment of thin charring fuels", "k": "Flight finding", "d": "Saffire IV and V: at increased oxygen, rapid extinguishment of a thin charring fuel cannot be assumed. The cotton flame survived a 15 s no-flow interval.", "c": "Saffire tests used a 20 cm/s duct flow; real cabin ventilation differs.", "s": ["R2"]}, {"fn": "protection", "t": "Air portable breathing apparatus (PBA)", "k": "ISS equipment", "d": "In July 2024 the program approved pressurized Air PBA units as primary personal protective equipment for fire response until replacement Emergency Respirators arrive.", "c": "A user with high breathing demand can draw negative pressure inside the mask and inhale cabin air.", "s": ["R25"]}, {"fn": "protection", "t": "Cartridge Emergency Masks", "k": "ISS equipment", "d": "The cartridge-based masks, used for ammonia and fire response, were found unfit after a fleet-wide failure in 2023.", "c": "", "s": ["R25"]}, {"fn": "protection", "t": "Firefighter air tanks", "k": "NASA spinoff", "d": "Scott Aviation developed lightweight tanks with Johnson Space Center: a 20 lb backpack with a 30 minute air supply, 13 lb lighter than conventional tanks, at 4,500 psi.", "c": "Spinoff from 1976; terrestrial firefighting equipment.", "s": ["R14"]}, {"fn": "protection", "t": "Project FIRES protective gear", "k": "NASA spinoff", "d": "Project FIRES applied heat-protective materials developed for astronaut suits and spacecraft to firefighter gear; fourteen fire departments took part in field evaluation.", "c": "Spinoff from 1982.", "s": ["R16"]}, {"fn": "protection", "t": "Apollo 1 safety changes", "k": "Lessons learned", "d": "A hatch openable in 3 s (the original took 90 s under ideal conditions), restricted combustible materials, and fire-resistant suit materials.", "c": "", "s": ["R11"]}, {"fn": "cleanup", "t": "Post-fire cleanup and acid gas transport", "k": "Flight experiment", "d": "Saffire IV to VI planned experiments on a post-fire cleanup system, vehicle internal volume measurements and transport of acid gases (HCl and HF).", "c": "Described from the paper abstract and introduction only.", "s": ["R23"]}, {"fn": "cleanup", "t": "Fire recovery on the ISS", "k": "ISS operations", "d": "Fire recovery is the last of the four ISS response phases, after detection, isolation and extinguishment.", "c": "", "s": ["R25"]}, {"fn": "atmosphere", "t": "Exploration atmosphere recommendation", "k": "NASA recommendation", "d": "NASA’s Exploration Atmosphere Working Group recommended 8.2 psia (56.5 kPa) with 34 % O₂ for future habitats. The ISS and shuttle airlock campout atmosphere is 10.2 psia (70.3 kPa) with 26.5 % O₂.", "c": "A recommendation, not a requirement. Higher oxygen makes materials burn more easily.", "s": ["R21"]}, {"fn": "atmosphere", "t": "Apollo 1 cabin at 100 % oxygen", "k": "Lessons learned", "d": "The 1967 pad-test fire spread fast in a cabin at 100 % oxygen with the hatches closed.", "c": "A ground test, not a low-gravity test.", "s": ["R11"]}, {"fn": "material", "t": "Saffire material tests", "k": "Flight experiment", "d": "Saffire flew SIBAL cloth, cotton jersey, one- and two-sided PMMA, and Nomex, among others, in controlled duct flow.", "c": "Duct size and flow development can change spread rate and pyrolysis length.", "s": ["R2", "R4"]}, {"fn": "material", "t": "Structured surfaces on PMMA", "k": "Flight finding", "d": "Ribs accelerated opposed flame spread on PMMA, most for the narrowest ribs (up to 0.88 mm/s on 1 mm ribs).", "c": "One microgravity test at 26.9 % O₂.", "s": ["R3"]}, {"fn": "material", "t": "Mir oxygen canister fire", "k": "Lessons learned", "d": "Investigators judged that hydrocarbons in a solid-fuel oxygen generator canister, most likely latex glove material, raised the fire risk.", "c": "", "s": ["R13"]}, {"fn": "material", "t": "Apollo 13 wiring and insulation", "k": "Lessons learned", "d": "Overheating degraded Teflon insulation on heater wiring. The redesign used wiring sheathed in stainless steel.", "c": "This was an oxygen tank explosion, not a cabin fire.", "s": ["R12"]}, {"fn": "material", "t": "Is the 1-g flame test conservative?", "k": "Open question", "d": "SoFIE’s page notes some researchers believe the NASA-STD-6001 1-g flame test is not conservative in low gravity.", "c": "", "s": ["R8"]}];
+function ctlView(){const rk=rank().filter(e=>e.r.fn===S.fn),eq=EQ.filter(q=>q.fn===S.fn),lk=id=>{const r=RES.find(x=>x.id===id);return `<a class="tag" href="${r.u}" target="_blank" rel="noopener">${id}</a>`};
+$("#view").innerHTML=`<div class="row" role="group" aria-label="Safety function">${Object.keys(FN).map(f=>`<button data-f="${f}" aria-pressed="${S.fn===f}">${FN[f]} (${R.filter(r=>r.fn===f).length+EQ.filter(q=>q.fn===f).length})</button>`).join("")}</div>
+<p class="mu">Equipment, procedures and findings from NASA sources for this safety function. Each entry links to the source that was checked.</p>
+${eq.map(q=>`<div class="card"><b>${q.t}</b><div class="tags"><span class="tag k">${q.k}</span>${q.s.map(lk).join("")}</div><p style="margin-top:8px">${q.d}</p>${q.c?`<p class="mu sm"><b>Caution:</b> ${q.c}</p>`:""}</div>`).join("")}
+${rk.length?`<h2 style="margin-top:18px">Test records</h2><p>${rk.filter(e=>e.r.low).length} of ${rk.length} tested at microgravity or partial gravity. Ground-only results may not transfer to low gravity.</p>`+rk.map(e=>card(e,0).replace('<div class="tags">','<div class="tags">'+(e.r.low?'<span class="tag k">Tested at low or partial g</span>':'<span class="tag w">Ground-only: may not transfer</span>'))).join(""):""}`}
 
 const RES=[
 {id:"R1",t:"Saffire: a novel approach to study of spacecraft fire safety using unmanned spacecraft",y:"2018",k:"NASA presentation",u:"https://ntrs.nasa.gov/api/citations/20180005168/downloads/20180005168.pdf",n:"Saffire overview (Urban, Ferkul and others, NASA Glenn). Saffire was the first test of spacecraft fires at a scale relevant to real spacecraft, run aboard unmanned Cygnus after it left the ISS, with data downlinked before re-entry. Objectives: Saffire 1 and 3 assess flame spread of a large-scale microgravity fire; Saffire 2 verifies oxygen flammability limits in low gravity. Ignition: Saffire 1, 165 W for 8 s on 40.6 cm wide SIBAL; Saffire 2, 80 W for 9.2 s on 5 cm wide SIBAL. Concurrent flames can reach a steady spread rate. Checked against the abstract and slides."},
@@ -205,11 +247,22 @@ const RES=[
 {id:"R23",t:"Fire Safety Implications of Preliminary Results from Saffire IV and V (ICES-2021-266)",y:"2021",k:"ICES paper",u:"https://ntrs.nasa.gov/api/citations/20210011521/downloads/ICES%202021-266%200503-2021%20final.pdf",n:"Saffire IV to VI were planned over three flights; the paper covers IV and V. Experiments included a post-fire cleanup system, vehicle internal volume measurements and transport of acid gases (HCl and HF). Gives new understanding of how sample and flow duct height affect flame spread and growth. Checked against the abstract and introduction."},
 {id:"R24",t:"Development of the International Space Station Fine Water Mist Portable Fire Extinguisher",y:"2013",k:"NASA conference paper",u:"https://ntrs.nasa.gov/citations/20130011664",n:"The ISS uses a water-foam extinguisher in the Russian segment and a carbon dioxide extinguisher in the US segment. ISS emergency breathing equipment does not filter CO₂, so a crew member discharging the CO₂ extinguisher needs an oxygen supply, which raises oxygen in a fire. NASA developed a nontoxic fine water mist extinguisher that puts out fire mostly by removing heat without creating a hazardous breathing environment. Checked against the abstracts."},
 {id:"R25",t:"ISS Environmental Control and Life Support System Overview of Events 2024-2025",y:"2026",k:"NASA and Boeing conference paper",u:"https://ntrs.nasa.gov/api/citations/20260002987/downloads/ISS%20ECLS%20Overview%20of%20Events%202025%20Final.pdf",n:"ISS fire detection and suppression covers smoke detection, fire isolation, fire extinguishment and fire recovery. The cartridge-based Emergency Masks, used for ammonia and fire response, were found unfit after a fleet-wide failure in 2023, so in July 2024 the Space Station Program Control Board approved pressurized Air Portable Breathing Apparatus units as primary personal protective equipment for fire response until replacement Emergency Respirators arrive. A user with high breathing demand can draw negative pressure inside the mask and inhale cabin air. Checked against the full paper."},
-{id:"R26",t:"ISS emergency response operations: history of philosophy, procedures, training and equipment",y:"2023",k:"NASA SpaceOps paper",u:"https://ntrs.nasa.gov/api/citations/20220019247/downloads/Emergency%20Ops%20History%20for%20SpaceOps%20Conference%202023.pdf",n:"Describes how ISS emergency response is run. Emergency response readiness, procedures, flight rules and crew training are the responsibility of the ECLSS flight control team, which serves as subject matter expert for the three non-medical emergency scenarios. Checked against excerpts only, not the full paper."}];
+{id:"R26",t:"ISS emergency response operations: history of philosophy, procedures, training and equipment",y:"2023",k:"NASA SpaceOps paper",u:"https://ntrs.nasa.gov/api/citations/20220019247/downloads/Emergency%20Ops%20History%20for%20SpaceOps%20Conference%202023.pdf",n:"Describes how ISS emergency response is run. Emergency response readiness, procedures, flight rules and crew training are the responsibility of the ECLSS flight control team, which serves as subject matter expert for the three non-medical emergency scenarios. Checked against excerpts only, not the full paper."},
+{id:"R27",t:"Candle flames: 1 g versus microgravity (NASA image caption)",y:"n/a",k:"NASA image page",u:"https://science.nasa.gov/image-detail/candle-flames-3",n:"NASA caption: on Earth, buoyant convection makes a candle flame teardrop-shaped and carries soot to the tip, which makes it yellow. In microgravity, with no convective flow, the flame is spherical, soot-free and blue. Used for the simulation’s flame shape and color. Checked against the caption text; the photographs themselves were not analyzed."},
+{id:"R28",t:"Jellyfish flames on the ISS (NASA science news, Tony Phillips)",y:"2014",k:"NASA science news reprint",u:"https://phys.org/news/2014-09-jellyfish-flames-iss.pdf",n:"FLEX-2 heptane and iso-octane droplets: the flame forms a blue spherical shell 15 to 20 mm across around the fuel, with bright yellow hot spots of soot inside, and soot globules sometimes exit the sphere. Checked."},
+{id:"R29",t:"The Effect of Gravity on Flame Spread over PMMA Cylinders (Link, Huang, Fernandez-Pello, Olson, Ferkul), Scientific Reports 8:120",y:"2018",k:"Peer-reviewed paper (CC BY 4.0), BASS-II on the ISS",u:"https://pmc.ncbi.nlm.nih.gov/articles/PMC5760683/",n:"Opposed flame spread over black PMMA rods on the ISS and on Earth, at 0.4 to 8 cm/s flow and 15 to 21 % oxygen. On Earth buoyancy drives an upward flow of about 30 cm/s, and the flame is sootier with a long tail. In microgravity at 2 cm/s the flame is bluer, rounder, much shorter without the long tail, and wider. As microgravity flow drops from 7.6 to 0.7 cm/s the flame turns from yellow to blue and its tip opens; at still lower flow it becomes longer and more spherical, and it went out below 0.6 cm/s (a weak flame in a thick boundary layer, starved of oxygen and losing heat by radiation). Microgravity spread rate first rises then falls as flow increases, and the turning point moves to higher flow at more oxygen. Microgravity flames kept spreading at 17 % oxygen, while Earth flames could not survive at about 18.5 % and below; below about 19 % oxygen microgravity spread is faster than on Earth, above it slower. Checked against the PubMed abstract and PMC full text."},
+{id:"R30",t:"Combustion of Solids in Microgravity: Results from the BASS-II Experiment",y:"2014",k:"NASA poster (NTRS 20160000593)",u:"https://ntrs.nasa.gov/citations/20160000593",n:"BASS-II burned PMMA samples in a small flow tunnel in the ISS Microgravity Science Glovebox at 0 to 55 cm/s and 21 % oxygen or less. The flames are very sensitive to flow between 0 and 5 cm/s and can survive below 1 cm/s, where they become dim blue and stable. A microgravity opposed flame at 10 cm/s showed a steady size, a convex base and an extended blue zone. Checked against the NTRS abstract and poster text."},
+{id:"R31",t:"NASA Studies Fire in Microgravity (SoFIE images)",y:"2026",k:"NASA Scientific Visualization Studio",u:"https://svs.gsfc.nasa.gov/31394",n:"Image montage of a thin fabric burning in a still chamber on the ISS: the flame makes its own flow as fuel vaporizes, brightens periodically as oxygen is drawn in, then dims as local fuel is used up. Frames 0.2 s apart. The page notes that microgravity flames form a spherical shape instead of a candle’s rising teardrop. Checked."},
+{id:"R32",t:"Saffire-IV: cotton–fiberglass fabric burning (NASA image jsc2023e046375)",y:"2023",k:"NASA image",u:"https://www.nasa.gov/image-detail/jsc2023e046375-saffire-vi-preflight/",n:"A 40 cm wide cotton–fiberglass fabric burns in Saffire-IV. Green LED light illuminates the sample; the flame is orange; the black region ahead is cotton beginning to heat and char; bright specks behind are smoldering cotton left on the fiberglass after the flame passes. Checked against NASA’s caption."},
+{id:"R33",t:"Saffire-IV: plexiglass burning (NASA image jsc2023e046631)",y:"2023",k:"NASA image (via a NASA media mirror)",u:"https://cosmosobservatory.com/gallery/jsc2023e046631",n:"Plexiglass (PMMA) burning in Saffire-IV. The flame is orange from soot. The solid melts, vaporizes and the vapor burns; bright flame balls are vapor burning as it is expelled from the surface. Checked against the NASA caption."},
+{id:"R34",t:"The Flame of Discovery Grows as Saffire Sets New Fires in Space",y:"2020",k:"NASA Glenn feature",u:"https://nasa.gov/feature/glenn/2020/the-flame-of-discovery-grows-as-saffire-sets-new-fires-in-space",n:"Edge view of a Saffire-IV flame over a 1 cm thick plexiglass-type sample: the blue color is typical of microgravity flames, with flow at 20 cm/s. A burning SIBAL cloth (75 % cotton, 25 % fiberglass) leaves bright speckles of glowing char behind the flame. Checked."},
+{id:"R35",t:"Studying Combustion and Fire Safety (ISS research)",y:"n/a",k:"NASA web page",u:"https://www.nasa.gov/missions/station/studying-combustion-and-fire-safety/",n:"On Earth, hot gases rise and cooler, denser air is pulled to the bottom of a flame, giving the classic shape and flicker. On the space station, low-momentum flames tend to be rounded or even spherical; an image shows a nearly spherical flame, dark blue at the edge and bright yellow-orange in the center. Checked."},
+{id:"R36",t:"Lunar Combustion Investigation (LUCI): flammability results from a rotating sounding rocket",y:"2025",k:"NASA presentation (NTRS 20250010653)",u:"https://ntrs.nasa.gov/api/citations/20250010653/downloads/ASGSR%202025-LUCI-Ferkul-Presentation-v2-20250010653.pdf",n:"Tests the hypothesis that some materials burning at partial gravity are more flammable than on Earth, with flammability limits (% O₂) measured for some materials at lunar gravity on a spinning sounding rocket. A stepping stone to FM2. Checked against the slides."},
+{id:"R37",t:"Material Flammability at Lunar and Martian Gravity (FM2), Lunar and Planetary Science Conference",y:"2026",k:"NASA presentation (NTRS 20260001966)",u:"https://ntrs.nasa.gov/api/citations/20260001966/downloads/Ferkul-Lunar%20and%20Planetary%20Science%20Conf%202026%20v2.pdf",n:"FM2 (Flammability of Materials on the Moon) will burn samples on the lunar surface, targeted for launch in late 2026, to find flammability limits at lunar gravity and 8.2 psia, and to test whether some materials are more flammable at partial gravity than in the NASA 1 g test. Evidence so far shows enhanced flammability limits in microgravity and suggests similar behavior at partial gravity. Checked against the slides."}];
 const refs=()=>"\n\nReference sources (real NASA documents, known only from their abstracts and slides; cite them as [R1] etc., and do not state details beyond these notes):\n"+RES.map(r=>`[${r.id}] ${r.t} (${r.y}): ${r.n}`).join("\n");
 function resView(){$("#view").innerHTML=`<div class="panel"><h2>Resources the SI draws on</h2><p class="mu">Real NASA documents in the SI’s reference list. The notes come from abstracts, slides and a few web pages, not the full papers, so check details in the source before relying on them. Entries marked as title-only or not re-checked were not verified.</p></div>`+RES.map(r=>`<div class="card"><b>${r.id}: ${r.t}</b><div class="tags"><span class="tag">${r.y}</span><span class="tag">${r.k}</span></div><p>${r.n}</p><a href="${r.u}" target="_blank" rel="noopener">Open source</a></div>`).join("")}
 function aiView(){
-if(!SM){$("#view").innerHTML='<div class="panel hl"><h2>SI recommendations</h2><p>'+(SMdone?'Claude isn’t available in this view. Open the published page while signed in to claude.ai to use recommendations, summaries, and questions.':'Connecting to Claude…')+'</p></div>';return}
+
 const h=H[S.hab],k=S.hab+JSON.stringify(S.w);
 $("#view").innerHTML=`<div class="panel hl"><h2>SI recommendations for the ${h.n.toLowerCase()}</h2><p class="mu">Reads the top-ranked records under your current weights, then writes findings, cautions, gaps, and recommendations that cite record IDs.</p><button id="brief" aria-pressed="true">Generate recommendations</button><div class="ai" id="bo">${hl(AIO[k]||"")}</div></div><div class="panel" style="margin-top:12px"><h2>Ask the SI</h2><p class="mu">Ask a fire safety question. The SI answers with a short phrase, then gives the details: similar experiments it cites, a recommendation, and cautions. It answers from the loaded NASA sources first and, where they do not cover the question, from general fire safety knowledge, labeled as such. It is a reference aid, not a replacement for mission procedures or mission control.</p><div class="row"><input class="q" id="q" type="text" placeholder="A fire alarm sounds in the cabin. What should the crew do first?" aria-label="Question"><button id="askb">Ask</button></div><div id="ao">${AIO.thread||""}</div></div>`}
 const IG={
@@ -222,9 +275,280 @@ function invView(){S.ig=S.ig||"acme";const g=IG[S.ig];
 $("#view").innerHTML=`<div class="panel"><h2>Atmospheres and the gravity gap</h2><p>Spacesuit: 100 % O₂ at 4.3 psi (29.6 kPa). Sea level: 14.7 psi (101.3 kPa). To shorten prebreathe, NASA’s Exploration Atmosphere Working Group recommended 8.2 psia (56.5 kPa) with 34 % O₂ for future habitats, a recommendation rather than a requirement; the shuttle and ISS airlock campout atmosphere is 10.2 psia (70.3 kPa) with 26.5 % O₂ (R21). Both carry more oxygen than air, which makes materials more flammable.</p><p><b>Partial gravity:</b> PSI has no partial-gravity combustion data yet; LUCI and FM2 may add some (brief). NASA describes FM2 as burning materials at the Moon’s 1/6 gravity (R8). Microgravity and 1 g results could bound intermediate levels. E-FIELD Flames only mimics partial gravity with an electric field.</p></div>
 <div class="row" role="group" aria-label="Investigation group">${Object.keys(IG).map(k=>`<button data-ig="${k}" aria-pressed="${S.ig===k}">${IG[k].n}</button>`).join("")}</div>
 <div class="panel"><p>${g.same}</p><p>${g.vary}</p><div class="tw"><table><thead><tr><th>Investigation</th><th>Objective</th><th>Fuel and sample</th><th>Conditions</th><th>Fire-safety relevance</th></tr></thead><tbody>${g.rows.map(r=>`<tr>${r.map(c=>`<td style="white-space:normal;min-width:130px">${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div><p class="mu" style="margin-top:8px">Details come from the research brief you supplied. “See PSI” means the attribute was not provided; check the PSI record.</p></div>`}
-function tabs(){const T={ai:"SI recommendations",rel:"Relevant work",inv:"Investigations",dat:"Modeling data",ctl:"Controls and equipment",res:"Resources"};
-$("#tabs").innerHTML=Object.keys(T).map(k=>`<button role="tab" data-t="${k}" aria-selected="${S.tab===k}">${T[k]}</button>`).join("");
-({inv:invView,rel:relView,dat:dataView,ctl:ctlView,ai:aiView,res:resView})[S.tab]();if(S.tab!=="rel")drawMap(rank())}
+const TABS={ai:"SI recommendations",sim:"Fire simulation",rel:"Relevant work",inv:"Investigations",dat:"Modeling data",ctl:"Controls and equipment",res:"Resources",about:"About us"};
+const DG=[["Briefing",["ai"]],["Play",["sim"]],["Evidence",["rel","inv","dat","ctl","res"]],["Ember",["about"]]];
+let simRaf=0;
+const SIM={g:0,o:27,f:20,opp:false,run:true,mat:"sibal"};
+/* Materials flown in NASA's Saffire experiments (R1, R2, R3, R4, R17). Spread, soot and residue below are
+   qualitative general knowledge chosen to show differences, not measured values. lim = oxygen (%) this
+   sandbox needs for the flame to keep spreading. */
+const MATS={
+ sibal:{hw:100,tex:"weave",n:"Cotton–fiberglass (SIBAL)",sp:1.8,soot:.95,size:1,zone:.7,lim:16,th:4,fresh:"#E9E3D3",side:"#BDB6A5",res:"#77736D",note:"A thin cotton–fiberglass fabric flown in Saffire I, IV and VI (R1, R2, R4). The cotton burns away quickly and leaves the glass fibers behind as a grey mesh, dotted with smoldering specks after the flame passes (R32, R34)."},
+ cotton:{hw:100,tex:"weave",n:"Cotton fabric",sp:2.2,soot:1,size:1.05,zone:.6,lim:16,th:3,fresh:"#F2EEE5",side:"#C9C3B6",res:"#140F0E",note:"Cotton jersey was flown in Saffire V (R2). A thin fabric that chars: the flame spreads fast, is sooty and yellow, and leaves black char."},
+ pmma:{hw:70,tex:"gloss",n:"PMMA (acrylic)",sp:1,soot:1,size:1.15,zone:1.4,lim:18.5,th:12,fresh:"#B9D2D8",side:"#8FAAB2",res:"#4E4236",note:"Thick acrylic flown in Saffire IV to VI, including the Saffire V ribbed test (R2, R3). It melts and vaporizes instead of charring, so it burns slowly with a bright, sooty flame and throws off bright balls of burning vapor (R33). Its oxygen limits come from R29: on Earth PMMA rods could not keep burning at about 18.5 % oxygen, while on the ISS they kept spreading at 17 %."},
+ nomex:{hw:92,tex:"weave",n:"Nomex",sp:.5,soot:.7,size:.75,zone:.8,lim:25,th:4,fresh:"#D9BC66",side:"#A88E45",res:"#3B2A16",note:"A flame-resistant fabric flown in Saffire II and VI (R17, R4). In this sandbox it needs enriched oxygen, about 25 % or more, to keep burning."},
+ silicone:{hw:80,tex:"matte",n:"Silicone",sp:.4,soot:.35,size:.7,zone:.9,lim:23,th:8,fresh:"#AFAFAA",side:"#868682",res:"#E4E2DC",note:"Silicone rubber was one of the four Saffire II materials (R17). It is hard to ignite, burns weakly and leaves white silica ash. In this sandbox it needs about 23 % oxygen or more."}};
+const SG=[["Microgravity",0],["Moon 1/6 g",0.166],["Mars 0.38 g",0.38],["Earth 1 g",1]];
+function simView(){
+const M=MATS[SIM.mat];if(SIM.yaw===undefined){SIM.yaw=-.38;SIM.pitch=.42}if(SIM.air===undefined)SIM.air=true;
+$("#view").innerHTML=`<div class="panel"><h2>Fire simulation</h2><p class="mu">A physics sandbox for how gravity, oxygen, airflow and the material change a flame. The flame is drawn in 3D as nested shells of temperature, hottest at the core, and the faint lines show how air moves: on Earth, buoyancy pulls air in at the sides and up through the flame; in microgravity only the fan-driven airflow moves it. Shapes follow NASA’s candle-flame photographs: a tall teardrop with a yellow, sooty tip at 1 g and a rounded, soot-free, blue flame in microgravity (R27). Sizes, speeds and the comparisons below are qualitative scaling estimates, not measured data. Microgravity behavior also follows ISS results for PMMA (R29, R30) and NASA flame photos (R31 to R35); the list under the simulation shows which images and sources shape the case you are viewing. The only NASA-measured case is the Saffire V reference test (R3), and there are no flame photos at Moon or Mars gravity yet: FM2 aims to burn samples on the Moon (R37). Drag the scene to rotate it.</p>
+<div class="row" id="sg">${SG.map(g=>`<button data-sg="${g[1]}" aria-pressed="${SIM.g===g[1]}">${g[0]}</button>`).join("")}<button id="simref">Saffire V reference test</button></div>
+<div class="row" id="smat" role="group" aria-label="Material"><span class="mu" style="align-self:center">Material:</span>${Object.keys(MATS).map(k=>`<button data-sm="${k}" aria-pressed="${SIM.mat===k}">${MATS[k].n}</button>`).join("")}</div>
+<div style="position:relative"><canvas id="sim" width="900" height="460" role="img" aria-label="3D view of a flame spreading across a sample, with lines showing air movement; drag to rotate"></canvas><canvas id="simgl" width="900" height="460" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas></div>
+<div id="sst" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0"></div>
+<div class="simg"><label>Oxygen: <b id="so">${SIM.o}</b> %<input type="range" id="sor" min="15" max="40" step="0.1" value="${SIM.o}"></label>
+<label>Airflow: <b id="sf">${SIM.f}</b> cm/s<input type="range" id="sfr" min="0" max="30" step="0.2" value="${SIM.f}"></label></div>
+<div class="row"><button id="simplay">${SIM.run?"Pause":"Play"}</button><button id="simrs">Restart</button><button id="simopp" aria-pressed="${SIM.opp}">Opposed flow: ${SIM.opp?"on":"off"}</button><button id="simair" aria-pressed="${SIM.air}">Air movement: ${SIM.air?"on":"off"}</button><button id="simview">Reset view</button></div>
+<p id="simro"></p><div id="srefs" class="card" style="margin-top:10px"></div></div>`;
+const c=$("#sim"),x=c.getContext("2d"),W=c.width,Hh=c.height,FL=880,CD=1100,hw=M.hw,ST=M.th,XL=-380,XR=380,RIB=SIM.rib&&SIM.mat==="pmma";
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;if(reduce)SIM.run=false;
+const PJ=(X,Y,Z)=>{const cy=Math.cos(SIM.yaw),sy=Math.sin(SIM.yaw),x1=X*cy-Z*sy,z1=X*sy+Z*cy,cp=Math.cos(SIM.pitch),sp=Math.sin(SIM.pitch),y2=Y*cp+z1*sp,z2=CD+z1*cp-Y*sp,k=FL/z2;return[W/2+x1*k,Hh*.64-y2*k,k,z2]};
+const path=pts=>{x.beginPath();pts.forEach((q,i)=>{const s=PJ(q[0],q[1],q[2]);i?x.lineTo(s[0],s[1]):x.moveTo(s[0],s[1])});x.closePath()};
+const mix=(a,b,t)=>a.map((v,i)=>Math.round(v+(b[i]-v)*t));
+
+/* ---- Physical model (qualitative scaling, not measured data) ----
+   Buoyant velocity scales with √g, so lift and flicker rate are shown relative to Earth as √(g/1 g).
+   Concurrent flow carries the flame over fresh fuel and speeds spread; opposed flow slows it.
+   More oxygen: hotter, larger, faster. No gravity and no airflow: oxygen arrives only by diffusion. */
+function model(){const g=SIM.g,gb=Math.sqrt(g),o=SIM.o,f=SIM.f,ox=(o-21)/19,ug=g===0;
+ // Oxygen needed to keep burning: the material's 1 g limit, lower in microgravity with gentle flow (PMMA 17 % vs about
+ // 18.5 % on Earth, R29) and sketched partway lower at partial gravity, the hypothesis LUCI and FM2 test (R36, R37).
+ const drop=ug?1.5*Math.min(1,Math.max(0,(f-.6)/1.4)):g<1?.8:0,lowflow=ug&&f<.6,need=M.lim-drop,burns=!lowflow&&o>=need,starve=lowflow;
+ // Spread: grows with oxygen and slows near the limit. In microgravity, opposed spread first rises then falls with flow,
+ // with the peak at higher flow when there is more oxygen; below about 19 % O2 it is faster than on Earth (R29).
+ const near=Math.max(.15,Math.min(1,(o-need)/2.5)),oxF=Math.max(.4,1+1.5*(o-21)/10),fp=2+.8*Math.max(0,o-17),
+  ff=ug?(SIM.opp?(f/fp)*Math.exp(1-f/fp)*1.6:(1+f/40)*Math.min(1,f/2)):(SIM.opp?.6*(1+f/100):1+f/40),
+  cx=ug?Math.max(.6,Math.min(1.5,1+.12*(19-o))):1,spread=M.sp*oxF*near*ff*cx*(.75+.25*gb);
+ // Shape and color: on Earth sooty with a long tail; in microgravity shorter, wider, bluer; as microgravity flow drops
+ // the flame turns from yellow to blue, its tip opens, then it grows longer and more spherical (R29, R30).
+ const lowF=ug?Math.max(0,Math.min(1,(1.5-f)/.9)):0,H=(42+150*Math.pow(gb,.7))*M.size*Math.max(.55,1+.45*ox)*(1+.6*lowF),
+  Wd=(48+34*(1-gb))*M.size*Math.max(.6,1+.3*ox)*(SIM.opp?.8:1),lean=f/(f+28*gb+.001)*(1-.7*lowF);
+ const sootEarth=M.soot*Math.pow(gb,.6)*Math.max(.5,.8+.4*ox),sootUg=M.soot*.7*Math.max(0,Math.min(1,(f-1)/7)),soot=Math.min(1,ug?sootUg:Math.max(sootEarth,sootUg*(1-gb)));
+ const openTip=ug?Math.max(0,Math.min(1,(3-f)/2)):0,pulse=ug&&f<1.5&&burns?1:0;
+ const shape=!burns?"Goes out":ug?(f<1.5?"Dim blue, nearly spherical":f<3?"Blue, open tip":"Short, wide, streams downstream"):gb<.7?"Wide and rounded":"Tall teardrop, long tail";
+ return{g,gb,o,f,ox,burns,starve,need,spread,rel:spread/M.sp,H,Wd,lean,soot,shape,openTip,pulse,lowF}}
+let m=model();
+function stats(){m=model();const box=(l,v,s)=>`<div class="card" style="margin:0"><div class="mu" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em">${l}</div><div class="score" style="font-size:20px">${v}</div><div class="mu" style="font-size:12px">${s}</div></div>`;
+ $("#sst").innerHTML=box("Buoyant lift",m.gb?Math.round(m.gb*100)+" %":"None","of Earth’s, scales with √g")+box("Flicker",m.gb?m.gb.toFixed(2)+"×":"None","Earth’s rate; steady with no gravity")
+  +box("Spread speed",m.burns?m.rel.toFixed(1)+"×":"0","vs. this material in still Earth air")+box("Flame shape",m.shape,m.burns?(m.soot>.5?"sooty, yellow":"little soot, blue"):(m.starve?"starved of oxygen":"too little oxygen"))
+  +box("Oxygen needed",m.starve?"—":m.need.toFixed(1)+" %",m.starve?"no flame below 0.6 cm/s in microgravity":"to keep burning here")}
+const RIBREF=()=>SIM.rib&&SIM.mat==="pmma";
+function refsPanel(){const L=[],add=(id,what,url)=>{const r=RES.find(q=>q.id===id);L.push(`<li><a href="${url||r.u}" target="_blank" rel="noopener">${id}: ${r.t}</a> <span class="mu">— ${what}</span></li>`)},F=n=>({1:"https://cdn.ncbi.nlm.nih.gov/pmc/blobs/5e31/5760683/afb61bf376b3/41598_2017_18398_Fig1_HTML.jpg",4:"https://cdn.ncbi.nlm.nih.gov/pmc/blobs/5e31/5760683/eceb0b337f83/41598_2017_18398_Fig4_HTML.jpg"})[n];
+ const g=SIM.g,f=SIM.f;
+ if(g===1){add("R27","NASA candle photos: 1 g teardrop with a yellow, sooty tip. Used for the 1 g shape and color.");add("R29","Fig. 1: Earth PMMA flame with a long tail, sootier, driven by about 30 cm/s buoyant flow. Used for the tall tail and soot.",F(1));add("R35","Why the classic shape and flicker happen on Earth. Used for the air drawn in at the sides.")}
+ else if(g>0){add("R36","LUCI: partial-gravity flammability limits from a spinning rocket. Used for the lower oxygen need sketched at this gravity.");add("R37","FM2 will burn samples on the Moon (late 2026). No flame photos at lunar or Mars gravity exist yet, so this shape is a sketch between the Earth and microgravity cases.")}
+ else{add("R27","NASA candle photos: spherical, soot-free, blue flame in microgravity. Used for the blue color and rounded shape.");add("R29","Fig. 1: microgravity flame shorter, wider and bluer than on Earth. Used for the shape.",F(1));
+  add("R29",`Fig. 4: as flow drops from 7.6 to 0.7 cm/s, yellow turns blue and the tip opens; extinction below 0.6 cm/s. Used for the flow-dependent color, open tip and extinction${f<3?" (active now)":""}.`,F(4));
+  add("R30","BASS-II: flames very sensitive to 0 to 5 cm/s flow, dim blue and stable below 1 cm/s, extended blue zone at 10 cm/s.");
+  if(f<1.5)add("R31","SoFIE montage: a quiescent flame brightens and dims as it draws in oxygen. Used for the pulsing (active now).");add("R35","Nearly spherical ISS flame, dark blue edge and yellow-orange center.")}
+ if(SIM.mat==="sibal"){add("R32","Saffire-IV fabric burning: orange flame, char ahead, smoldering specks behind. Used for the glowing specks on the residue.");add("R34","Glowing char speckles behind a SIBAL flame.")}
+ if(RIBREF())add("R3","Saffire V: ribbed PMMA, ribs 1 to 10 mm wide along the flow. Used for the ribbed sample in the reference test.");if(SIM.mat==="pmma"){add("R33","Saffire-IV plexiglass: sooty orange flame with bright balls of burning vapor. Used for the vapor balls.");add("R34","Edge view of a blue microgravity flame over 1 cm plexiglass at 20 cm/s.");if(g>0)add("R29","PMMA rods: oxygen limits on Earth and on the ISS. Used for this material’s oxygen need.")}
+ if(SIM.mat==="cotton")add("R2","Saffire V burned cotton jersey; NASA released no close-up photo, so its look follows the general fabric behavior.");
+ if(SIM.mat==="nomex"||SIM.mat==="silicone")add("R17","Saffire-II burned Nomex and silicone samples; no published flame photo was found, so their behavior is qualitative.");
+ $("#srefs").innerHTML=`<b>Reference images and sources for this case</b><ul style="margin:6px 0 0 18px;list-style:disc">${L.join("")}</ul><p class="mu" style="font-size:12px;margin:6px 0 0">Links open the original NASA or journal pages. Images can’t be embedded on this page, so they open in a new tab.</p>`}
+function info(){refsPanel();const g=SIM.g,txt=g===1?"On Earth, buoyancy lifts hot gas quickly and pulls fresh air in at the sides, so the flame stands tall, flickers and carries soot to a yellow tip.":g>0?"With weaker gravity, buoyancy is weaker: here the flame is wider and rounder, flickers more slowly and makes less soot. This is a sketch: no sourced flame data exists at this gravity.":"With no gravity there is no buoyancy, so hot gas does not rise and only the airflow brings fresh oxygen. Compared with Earth the flame is shorter, wider and bluer. As the flow slows it turns from yellow to blue and its tip opens; below about 1.5 cm/s it becomes dim, longer and nearly spherical and pulses as it draws in oxygen; below 0.6 cm/s it went out on the ISS (R29, R30, R31).";
+ $("#simro").innerHTML=`<b>${(g*9.81).toFixed(2)} m/s²</b> gravity, <b>${SIM.o}</b> % O₂, <b>${SIM.f}</b> cm/s ${SIM.opp?"opposed":"concurrent"} flow. ${txt} `
+ +(SIM.opp?"Opposed flow pushes the flame back over burnt material, so it creeps forward slowly with a small blue leading edge. ":SIM.f?"Concurrent flow pushes the flame ahead over unburnt material and preheats it, so it spreads faster. ":"")
+ +(SIM.o>21?"More oxygen makes the flame hotter, larger and faster spreading. ":"")+(m.g===0&&m.burns&&SIM.o<19?"Below about 19 % oxygen, flames spread faster in microgravity than on Earth (R29). ":"")+(m.starve?"<b>Below 0.6 cm/s in microgravity the flame sits in a thick, slow layer of gas, starves of oxygen and loses heat by radiation, so it goes out (R29).</b> ":!m.burns?`<b>At this oxygen level the flame goes out.</b> `:"")
+ +`<br><b>${M.n}:</b> ${M.note} <span class="mu">Material behavior here is qualitative, not measured.</span><br><span class="mu sm">The reference test (R3) is a real NASA run: microgravity, opposed flow at 20 then 5 cm/s, 26.9 % O₂ and 76.1 kPa, with spread up to 0.88 mm/s on 1 mm ribs.</span>`}
+
+let p=0,hold=0,die=0,last=performance.now(),TR=[];
+// ---- scenery ----
+function floor(){const yF=-ST-26;x.lineWidth=1;x.strokeStyle="rgba(185,165,151,.07)";
+ for(let X=-540;X<=540;X+=60){const a=PJ(X,yF,-330),b=PJ(X,yF,330);x.beginPath();x.moveTo(a[0],a[1]);x.lineTo(b[0],b[1]);x.stroke()}
+ for(let Z=-330;Z<=330;Z+=60){const a=PJ(-540,yF,Z),b=PJ(540,yF,Z);x.beginPath();x.moveTo(a[0],a[1]);x.lineTo(b[0],b[1]);x.stroke()}
+ path([[XL-26,yF,-hw-28],[XR+26,yF,-hw-28],[XR+26,yF,hw+28],[XL-26,yF,hw+28]]);x.fillStyle="rgba(0,0,0,.4)";x.fill()}
+/* ---- The sample, mounted like a Saffire sample card ----
+   A metal holder frame with corner screws, an igniter wire at the starting edge (Saffire lit samples with a hot,
+   bead-lined wire) and thermocouple beads above the sample. The burn front is a slightly wavy line across the width.
+   Fabrics char (SIBAL leaves a grey glass-fiber mesh); PMMA melts into a dark, bubbled groove. */
+const BUB=Array.from({length:70},()=>({u:Math.random(),z:Math.random()*2-1,r:.6+Math.random()*1.4}));
+const TCX=[.25,.5,.75].map(f2=>XL+f2*(XR-XL));
+function quad(pts,fill){path(pts);x.fillStyle=fill;x.fill()}
+function slab(xf,dirS){const T=(SIM.ft||0)/1000,FR=18,FT=3,H2=-ST-4,start=SIM.opp?XR:XL;
+ // wavy burn front across the width
+ const NZ=16,front=[];for(let i=0;i<=NZ;i++){const z=-hw+2*hw*i/NZ;front.push([xf+dirS*(8*Math.sin(z*.05+T*.6)+5*Math.sin(z*.13+1.7+T*.9))*(p>0&&p<1?1:0),z])}
+ const clampX=v=>Math.max(XL,Math.min(XR,v));
+ // holder: side faces, farthest first
+ const oX0=XL-FR,oX1=XR+FR,oZ=hw+FR,frameSides=[[[oX0,FT,-oZ],[oX1,FT,-oZ],[oX1,H2,-oZ],[oX0,H2,-oZ]],[[oX0,FT,oZ],[oX1,FT,oZ],[oX1,H2,oZ],[oX0,H2,oZ]],[[oX0,FT,-oZ],[oX0,FT,oZ],[oX0,H2,oZ],[oX0,H2,-oZ]],[[oX1,FT,-oZ],[oX1,FT,oZ],[oX1,H2,oZ],[oX1,H2,-oZ]]]
+  .map(f=>({f,d:f.reduce((s,q)=>s+PJ(q[0],q[1],q[2])[3],0)})).sort((a,b)=>b.d-a.d);
+ frameSides.forEach((o,i)=>quad(o.f,i<2?"#1C1F23":"#3B4148"));
+ // sample top: fresh material
+ path([[XL,0,-hw],[XR,0,-hw],[XR,0,hw],[XL,0,hw]]);const a=PJ(XL,0,0),b=PJ(XR,0,0),tg=x.createLinearGradient(a[0],a[1],b[0],b[1]);tg.addColorStop(0,M.fresh);tg.addColorStop(1,M.side);x.fillStyle=tg;x.fill();
+ // texture
+ x.save();path([[XL,0,-hw],[XR,0,-hw],[XR,0,hw],[XL,0,hw]]);x.clip();x.lineWidth=1;
+ if(M.tex==="weave"){x.strokeStyle="rgba(0,0,0,.07)";for(let X=XL;X<=XR;X+=9){const s0=PJ(X,0,-hw),s1=PJ(X,0,hw);x.beginPath();x.moveTo(s0[0],s0[1]);x.lineTo(s1[0],s1[1]);x.stroke()}
+  for(let Z=-hw;Z<=hw;Z+=9){const s0=PJ(XL,0,Z),s1=PJ(XR,0,Z);x.beginPath();x.moveTo(s0[0],s0[1]);x.lineTo(s1[0],s1[1]);x.stroke()}}
+ if(M.tex==="gloss"){x.globalAlpha=.22;quad([[XL,0,-hw*.25],[XR,0,-hw*.25],[XR,0,-hw*.08],[XL,0,-hw*.08]],"#fff");x.globalAlpha=.1;quad([[XL,0,hw*.3],[XR,0,hw*.3],[XR,0,hw*.38],[XL,0,hw*.38]],"#fff");x.globalAlpha=1}
+ if(M.tex==="matte"){x.fillStyle="rgba(0,0,0,.08)";for(let i=0;i<220;i++){const q=PJ(XL+((i*97)%760),0,-hw+((i*53)%(2*hw)));x.fillRect(q[0],q[1],1.4,1.4)}}
+ if(RIB){for(let i=0;i<5;i++){const z=-hw*.75+i*hw*.375,w2=2+i*2;quad([[XL,1.5,z-w2],[XR,1.5,z-w2],[XR,1.5,z+w2],[XL,1.5,z+w2]],"rgba(255,255,255,.18)");const s0=PJ(XL,1.5,z+w2),s1=PJ(XR,1.5,z+w2);x.strokeStyle="rgba(0,0,0,.18)";x.beginPath();x.moveTo(s0[0],s0[1]);x.lineTo(s1[0],s1[1]);x.stroke()}}
+ // burnt region up to the wavy front
+ if(p>0){const pts=[[start,0,-hw]];front.forEach(([fx2,z])=>pts.push([clampX(fx2),0,z]));pts.push([start,0,hw]);quad(pts,M.res);
+  if(SIM.mat==="pmma"){x.globalAlpha=.55;quad(pts,"#2A1D14");x.globalAlpha=1;
+   for(const bb of BUB){const X=xf-dirS*bb.u*70;if(X<XL||X>XR)continue;const q=PJ(X,.2,bb.z*hw*.9),r=bb.r*q[2]*1.6;x.strokeStyle=`rgba(255,200,140,${(.35*(1-bb.u)).toFixed(3)})`;x.beginPath();x.arc(q[0],q[1],r,0,6.283);x.stroke()}}
+  if(SIM.mat==="sibal"){x.strokeStyle="rgba(205,200,190,.22)";for(let X=Math.min(start,xf);X<Math.max(start,xf);X+=7){const s0=PJ(X,0,-hw),s1=PJ(X,0,hw);x.beginPath();x.moveTo(s0[0],s0[1]);x.lineTo(s1[0],s1[1]);x.stroke()}}}
+ x.restore();
+ // sample edge (front face) in its own color; charred where burnt
+ quad([[XL,0,-hw],[XR,0,-hw],[XR,-ST,-hw],[XL,-ST,-hw]],M.side);if(p>0)quad([[start,0,-hw],[clampX(front[0][0]),0,-hw],[clampX(front[0][0]),-ST,-hw],[start,-ST,-hw]],M.res);
+ // holder top ring, slightly above the sample, with screws
+ const ring=(x0,x1,z0,z1)=>quad([[x0,FT,z0],[x1,FT,z0],[x1,FT,z1],[x0,FT,z1]],"#59626C");
+ ring(oX0,oX1,-oZ,-hw);ring(oX0,oX1,hw,oZ);ring(oX0,XL,-hw,hw);ring(XR,oX1,-hw,hw);
+ for(const [X,Z] of [[oX0+9,-oZ+9],[oX1-9,-oZ+9],[oX0+9,oZ-9],[oX1-9,oZ-9]]){const q=PJ(X,FT,Z);x.fillStyle="#2A2E33";x.beginPath();x.ellipse(q[0],q[1],3.2*q[2],2*q[2],0,0,6.283);x.fill()}
+ // igniter wire at the starting edge; glows when the burn begins
+ const iw=start-dirS*4,glow=Math.max(0,1-p*30),w0=PJ(iw,2,-hw-FR*.6),w1=PJ(iw,2,hw+FR*.6);
+ x.strokeStyle=glow>0?`rgb(${150+Math.round(105*glow)},${70+Math.round(90*glow)},40)`:"#8A8F96";x.lineWidth=2*w0[2];x.beginPath();x.moveTo(w0[0],w0[1]);x.lineTo(w1[0],w1[1]);x.stroke();
+ if(glow>0){x.save();x.globalCompositeOperation="lighter";x.strokeStyle=`rgba(255,140,40,${(.5*glow).toFixed(3)})`;x.lineWidth=8*w0[2];x.beginPath();x.moveTo(w0[0],w0[1]);x.lineTo(w1[0],w1[1]);x.stroke();x.restore()}
+ // thermocouple beads on thin wires; they glow red as the flame passes under them
+ for(const X of TCX){const s0=PJ(X,FT,-oZ),s1=PJ(X,14,-hw*.2),passed=SIM.opp?X>xf:X<xf,heat=passed&&p<1?Math.max(0,1-Math.abs(X-xf)/120):0;
+  x.strokeStyle="rgba(190,190,200,.55)";x.lineWidth=1;x.beginPath();x.moveTo(s0[0],s0[1]);x.lineTo(s1[0],s1[1]);x.stroke();
+  x.fillStyle=heat>0?`rgb(${200+Math.round(55*heat)},${90+Math.round(60*heat)},${60})`:"#C8C8D0";x.beginPath();x.arc(s1[0],s1[1],2.6*s1[2],0,6.283);x.fill()}}
+// warm strip of fuel being preheated ahead of the flame; long when flow carries the flame over it
+function preheat(xf,dirS,fade){if(fade<=0)return;const Lp=SIM.opp?16+12*m.ox:28+m.lean*m.H*1.5+16*m.ox,xe=Math.max(XL,Math.min(XR,xf+dirS*Lp));
+ path([[xf,.3,-hw],[xe,.3,-hw],[xe,.3,hw],[xf,.3,hw]]);const a=PJ(xf,0,0),b=PJ(xe,0,0),g2=x.createLinearGradient(a[0],a[1],b[0],b[1]);
+ g2.addColorStop(0,`rgba(255,130,40,${.55*fade})`);g2.addColorStop(1,"rgba(255,130,40,0)");x.fillStyle=g2;x.fill();
+ const s0=PJ(xf,.6,-hw),s1=PJ(xf,.6,hw);x.strokeStyle=`rgba(255,${150+Math.round(40*Math.random())},60,${.9*fade})`;x.lineWidth=2.2*s0[2];x.beginPath();x.moveTo(s0[0],s0[1]);x.lineTo(s1[0],s1[1]);x.stroke()}
+
+// ---- air movement ----
+function vel(X,Y,Z,xc){let u=SIM.f*5*(Y<25?.35+.65*Y/25:1),v=0,w=0;
+ if(m.gb){const Ub=150*m.gb,s=m.Wd*.9,ax=xc+m.lean*Y*.8,dx=X-ax,r2=(dx*dx+Z*Z*.5)/(s*s);v=Ub*Math.exp(-r2*.5)+Ub*.06;
+  const k=Ub*.45*Math.exp(-r2*.12)*Math.exp(-Y/(m.H*1.2)),d=Math.sqrt(dx*dx+Z*Z)+1;u+=-dx/d*k;w+=-Z/d*k}
+ return[u,v,w]}
+function air(dt,xc){if(!SIM.air){TR=[];return}
+ if(SIM.run){const still=!m.gb&&!SIM.f;
+  if(SIM.f)for(let i=0;i<dt*26;i++)TR.push({p:[XL-120,4+Math.random()*230,(Math.random()*2-1)*150],t:[],a:0});
+  if(m.gb)for(let i=0;i<dt*30*m.gb;i++){const an=Math.random()*6.283,rr=120+Math.random()*170;TR.push({p:[xc+Math.cos(an)*rr,3+Math.random()*18,Math.sin(an)*rr*.8],t:[],a:0})}
+  if(still)while(TR.length<45)TR.push({p:[xc+(Math.random()*2-1)*220,4+Math.random()*120,(Math.random()*2-1)*150],t:[],a:Math.random()*3});
+  for(const r of TR){r.a+=dt;const [u,v,w]=vel(r.p[0],r.p[1],r.p[2],xc),j=still?18:0;
+   r.p[0]+=(u+(Math.random()-.5)*j*4)*dt;r.p[1]+=(v+(Math.random()-.5)*j*4)*dt;r.p[2]+=(w+(Math.random()-.5)*j*4)*dt;if(r.p[1]<2)r.p[1]=2;
+   r.t.push(r.p.slice());if(r.t.length>22)r.t.shift()}
+  TR=TR.filter(r=>r.a<4.5&&r.p[0]<XR+200&&r.p[1]<520&&TR.length<380)}
+ x.lineCap="round";
+ for(const r of TR){if(r.t.length<2)continue;const fade=Math.min(1,r.a*2)*Math.min(1,(4.5-r.a));x.beginPath();
+  r.t.forEach((q,i)=>{const s=PJ(q[0],q[1],q[2]);i?x.lineTo(s[0],s[1]):x.moveTo(s[0],s[1])});
+  const s=PJ(r.p[0],r.p[1],r.p[2]);const gr2=x.createLinearGradient(PJ(...r.t[0])[0],PJ(...r.t[0])[1],s[0],s[1]);gr2.addColorStop(0,"rgba(160,195,255,0)");gr2.addColorStop(1,`rgba(170,205,255,${.5*fade})`);x.strokeStyle=gr2;x.lineWidth=1.4*s[2];x.stroke();
+  x.fillStyle=`rgba(200,225,255,${.55*fade})`;x.beginPath();x.arc(s[0],s[1],1.3*s[2],0,6.283);x.fill()}}
+
+// ---- flame: nested temperature bands, shape from the model ----
+const COOL=[[40,80,230],[70,125,255],[130,182,255],[215,232,255]],WARM=[[225,70,25],[255,135,35],[255,200,75],[255,246,215]];
+function flame(xc,t,fade){if(fade<=0)return;
+ const b0=PJ(xc,0,0),tp=PJ(xc,m.H,0),ex=PJ(xc+m.Wd,0,0),zx=Math.abs(PJ(xc,0,hw)[0]-PJ(xc,0,-hw)[0])/2;
+ let rx=ex[0]-b0[0],ry=ex[1]-b0[1];const rl=Math.hypot(rx,ry)||1;rx/=rl;ry/=rl;const Ws=(rl+zx*.55)*(.6+.4*fade),ux=tp[0]-b0[0],uy=tp[1]-b0[1],Hs=Math.hypot(ux,uy)*(.5+.5*fade);
+ const upx=ux/(Math.hypot(ux,uy)||1),upy=uy/(Math.hypot(ux,uy)||1),fq=2.4*m.gb,T=t/1000;
+ const shape=(k,flick)=>{const N=36,L=[],R=[],hk=.42+.58*k;
+  for(let i=0;i<=N;i++){const s=i/N,dome=Math.sqrt(Math.max(0,1-s*s)),tear=Math.pow(1-s,.55)*(1+.55*s)*.95,wv=(dome+(tear-dome)*m.gb)*Ws*k,
+   wave=flick*Math.sin(6.283*fq*T-s*4.2)*s*Ws*.28*m.gb,cx=m.lean*Hs*1.5*Math.pow(s*hk,1.3)+wave,h=s*Hs*hk*(1+flick*.05*m.gb*Math.sin(6.283*fq*T));
+   const px=b0[0]+rx*cx+upx*h,py=b0[1]+ry*cx+upy*h;L.push([px-rx*wv,py-ry*wv]);R.push([px+rx*wv,py+ry*wv])}
+  x.beginPath();L.forEach((q,i)=>i?x.lineTo(q[0],q[1]):x.moveTo(q[0],q[1]));R.reverse().forEach(q=>x.lineTo(q[0],q[1]));x.closePath()};
+ const br=Math.min(1,(.7+.4*m.ox)*(m.gb?1:.85))*fade,ks=[1,.76,.54,.34],al=[.55,.75,.88,.95];
+ x.save();x.globalCompositeOperation="source-over";
+ ks.forEach((k,i)=>{const col=mix(COOL[i],WARM[i],Math.min(1,m.soot*1.15));shape(k,1);
+  if(i===0){x.shadowColor=`rgba(${col},.9)`;x.shadowBlur=34}else x.shadowBlur=0;
+  x.fillStyle=`rgba(${col},${(al[i]*br).toFixed(3)})`;x.fill();
+  x.strokeStyle=`rgba(${mix(col,[255,255,255],.35)},${(i?.22:.75)*br})`;x.lineWidth=i?1:1.6;x.stroke()});
+ // blue base where fuel vapor first meets oxygen
+ shape(1,1);x.clip();const bg=x.createLinearGradient(b0[0],b0[1],b0[0]+upx*Hs*.3,b0[1]+upy*Hs*.3);bg.addColorStop(0,`rgba(70,130,255,${.75*br})`);bg.addColorStop(1,"rgba(70,130,255,0)");x.fillStyle=bg;x.fillRect(0,0,W,Hh);
+ x.restore()}
+
+/* ---- 3D flame: nested temperature shells as real geometry ----
+   Each shell is a closed surface around the burning strip, spanning the sample's width. Shells are drawn on the GPU
+   with additive light, and each point glows more where the view grazes the surface (more hot gas along the line of
+   sight), which gives a glowing-volume look from any angle. Falls back to the flat flame if WebGL is missing. */
+const gc=$("#simgl"),gl=gc.getContext("webgl",{premultipliedAlpha:true,alpha:true,antialias:true});let GP=null,GB=null,GI=null,GL_N=0;
+if(gl){const sh=(t2,s2)=>{const o=gl.createShader(t2);gl.shaderSource(o,s2);gl.compileShader(o);return o};
+ const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,"attribute vec2 p;attribute vec4 c;varying vec4 v;void main(){gl_Position=vec4(p,0.,1.);v=c;}"));
+ gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,"precision mediump float;varying vec4 v;void main(){gl_FragColor=vec4(v.rgb*v.a,v.a);}"));gl.linkProgram(pr);
+ if(gl.getProgramParameter(pr,gl.LINK_STATUS)){GP=pr;gl.useProgram(pr);GB=gl.createBuffer();GI=gl.createBuffer();
+  const NR=22,NS=34,idx=[];for(let i=0;i<NR;i++)for(let j=0;j<NS;j++){const a=i*(NS+1)+j,b=a+NS+1;idx.push(a,b,a+1,a+1,b,b+1)}
+  const per=(NR+1)*(NS+1),all=[];for(let s2=0;s2<12;s2++)idx.forEach(v=>all.push(v+s2*per));GL_N=all.length;
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,GI);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(all),gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER,GB);const lp=gl.getAttribLocation(pr,"p"),lc=gl.getAttribLocation(pr,"c");
+  gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,24,0);gl.enableVertexAttribArray(lc);gl.vertexAttribPointer(lc,4,gl.FLOAT,false,24,8);
+  gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE);gl.disable(gl.DEPTH_TEST);GL_N=GL_N/12}}
+const VB=new Float32Array(12*23*35*6);let EMB=[];
+/* Fire-like motion on a stylized flame. The flame is split into tongues across the sample's width (one smooth sheet in
+   microgravity). Each tongue's surface is pushed in and out by waves that travel upward, so the outline licks, sways and
+   splits near the tip; speed and amplitude scale with buoyancy (√g), so it is lively on Earth and slow and smooth in
+   microgravity (R27, R29, R35). */
+function flame3D(xc,t,fade){gl.viewport(0,0,gc.width,gc.height);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);if(fade<=0)return;
+ const NR=22,NS=34,T=t/1000,gb=m.gb,rise=T*(.7+3.2*gb),H0=m.H*.68*(.5+.5*fade),W0=m.Wd*.78*(.6+.4*fade),
+  br=Math.min(1,Math.max(.45,.7+.4*m.ox)*(gb?1:.85)*(1-.35*m.lowF))*fade*(m.pulse?.78+.3*Math.sin(6.283*1.1*T):1);
+ const cp=Math.cos(SIM.pitch),sp=Math.sin(SIM.pitch),vd=[Math.sin(SIM.yaw)*cp,-sp,Math.cos(SIM.yaw)*cp];
+ // light thrown on the sample, flickering with the flame
+ const c0=PJ(xc,H0*.25,0),lg=x.createRadialGradient(c0[0],c0[1],0,c0[0],c0[1],180*c0[2]),oc=mix(COOL[1],WARM[1],Math.min(1,m.soot*1.15)),fl=1+.15*gb*Math.sin(rise*7.3)*Math.sin(rise*3.1);
+ lg.addColorStop(0,`rgba(${oc},${.24*br*fl})`);lg.addColorStop(1,`rgba(${oc},0)`);x.save();x.globalCompositeOperation="lighter";x.fillStyle=lg;x.fillRect(0,0,W,Hh);x.restore();
+ // tongues across the width: centre one tallest; microgravity: one smooth sheet
+ const tongues=gb>=.7?[[0,1,.62,0],[-.58,.78,.42,2.1],[.58,.84,.42,4.2]]:gb?[[-.35,1,.6,0],[.38,.88,.58,2.6]]:[[0,1,.95,0]];
+ const ks=[1,.74,.5,.3],gk=gb?.45+.55*gb*gb:1,al=(gb?[.13,.2,.3,.45]:[.34,.4,.46,.5]).map(v=>v*gk),COOLD=[[30,60,220],[45,90,245],[80,130,255],[125,170,255]];let o=0,nShell=0;
+ for(const [zc0,hm,zw,ph] of tongues){
+  const Hf=H0*hm*(1+.13*gb*Math.sin(rise*2.3+ph)+.06*gb*Math.sin(rise*5.7+ph*1.7)),Zw=hw*zw,zC=zc0*hw;
+  ks.forEach((k,si)=>{const hk=.42+.58*k,Hk=Hf*hk,cool=gb?COOL[si]:COOLD[si],P=[];
+   for(let i=0;i<=NR;i++){const s=i/NR,dome=Math.sqrt(Math.max(0,1-s*s)),tear=Math.pow(1-s,.6)*(1+.5*s)*.95,pr2=dome+(tear-dome)*gb,
+    ax0=pr2*W0*k*(1+m.lean*1.1*(1-gb)),bz0=pr2*Zw*(.7+.3*k),y=s*Hk,row=[];
+    // tip sways and licks: travelling waves grow with height
+    const sway=Math.sin(rise*1.7-s*3+ph)*W0*.32*gb*Math.pow(s,1.4)+Math.sin(rise*4.1-s*6+ph*2)*W0*.1*gb*s,
+     cx=xc+m.lean*Hf*1.5*Math.pow(s*hk,1.3)+sway+m.lean*(1-gb)*W0*.55*(1.15-.3*k);
+    for(let j=0;j<=NS;j++){const th=j/NS*6.2832,cs=Math.cos(th),sn=Math.sin(th),
+     amp=(.1+.3*gb)*Math.pow(s,1.15),lick=1+amp*(.6*Math.sin(3*th+6*s-rise*2.6+ph)+.4*Math.sin(5*th-8*s-rise*3.7+ph*1.3))+.05*(1-gb)*Math.sin(2*th-rise*1.1),
+     ax=Math.max(.4,ax0*lick),bz=Math.max(.4,bz0*lick),zz=zC+bz*Math.sign(sn)*Math.pow(Math.abs(sn),.7);
+     row.push([cx+ax*Math.sign(cs)*Math.pow(Math.abs(cs),.8),y*(1+.08*gb*Math.sin(th*2+rise*3)*s),zz])}P.push(row)}
+   for(let i=0;i<=NR;i++)for(let j=0;j<=NS;j++){const q=P[i][j],a2=P[Math.min(NR,i+1)][j],b2=P[Math.max(0,i-1)][j],cA=P[i][(j+1)%NS],cB=P[i][(j+NS-1)%NS];
+    const du=[a2[0]-b2[0],a2[1]-b2[1],a2[2]-b2[2]],dv=[cA[0]-cB[0],cA[1]-cB[1],cA[2]-cB[2]],n=[du[1]*dv[2]-du[2]*dv[1],du[2]*dv[0]-du[0]*dv[2],du[0]*dv[1]-du[1]*dv[0]],nl=Math.hypot(n[0],n[1],n[2])||1;
+    const rim=1-Math.abs((n[0]*vd[0]+n[1]*vd[1]+n[2]*vd[2])/nl),s=i/NR,blue=Math.max(0,1-s/.22)*(si<2?1:.6),
+     warm=Math.max(0,Math.min(1,m.soot*1.15*(.55+.9*s))),cc=mix(mix(cool,WARM[si],warm),[70,130,255],blue),A=al[si]*br*(gb?.8+.35*rim:1.25*(1-.65*rim))*(1-Math.pow(s,4)*.75)*(1-m.openTip*Math.max(0,Math.min(1,(s-.5)/.35))*.85),sc=PJ(q[0],q[1],q[2]);
+    VB[o++]=sc[0]/W*2-1;VB[o++]=1-sc[1]/Hh*2;VB[o++]=cc[0]/255;VB[o++]=cc[1]/255;VB[o++]=cc[2]/255;VB[o++]=Math.min(1,A)}nShell++})}
+ gl.bindBuffer(gl.ARRAY_BUFFER,GB);gl.bufferData(gl.ARRAY_BUFFER,VB.subarray(0,o),gl.DYNAMIC_DRAW);gl.drawElements(gl.TRIANGLES,GL_N*nShell,gl.UNSIGNED_SHORT,0);
+ // a few sparks rising from sooty buoyant flames
+ if(gb>.3&&m.soot>.5){if(SIM.run&&Math.random()<.05*gb*60/60)EMB.push({x:xc+(Math.random()-.5)*W0,y:H0*.6,z:(Math.random()*2-1)*hw*.6,vx:(Math.random()-.5)*20+SIM.f*2,vy:60+80*gb*Math.random(),a:0,L:.8+Math.random()*.8});
+  x.save();x.globalCompositeOperation="lighter";for(const e of EMB){if(SIM.run){e.a+=1/60/e.L;e.x+=e.vx/60;e.y+=e.vy/60;e.vx+=Math.sin(e.a*9)*1.5}const q=PJ(e.x,e.y,e.z);x.fillStyle=`rgba(255,${170-Math.round(80*e.a)},60,${(.9*(1-e.a)*fade).toFixed(3)})`;x.beginPath();x.arc(q[0],q[1],1.4*q[2],0,6.283);x.fill()}x.restore();EMB=EMB.filter(e=>e.a<1)}else EMB=[]}
+const SPK=Array.from({length:160},()=>({u:Math.random(),z:(Math.random()*2-1)*hw*.95,k:Math.random()*6.28,l:.4+Math.random()*.6}));let VB2=[];
+function extras(xf,dirS,xc,dt,fade){const T=(SIM.ft||0)/1000;x.save();x.globalCompositeOperation="lighter";
+ if(SIM.mat==="sibal"){for(const s of SPK){const d=s.u*220,X=xf-dirS*d;if(X<XL||X>XR)continue;const q=PJ(X,.5,s.z),a=Math.max(0,1-d/220)*s.l*(.6+.4*Math.sin(T*3+s.k));
+  x.fillStyle=`rgba(255,${120+Math.round(80*a)},40,${(.75*a).toFixed(3)})`;x.beginPath();x.arc(q[0],q[1],1.6*q[2],0,6.283);x.fill()}}
+ if(SIM.mat==="pmma"&&fade>0){if(SIM.run&&Math.random()<dt*(m.gb?5:2.5))VB2.push({x:xc+(Math.random()-.5)*m.Wd,y:2,z:(Math.random()*2-1)*hw*.8,v:30+40*m.gb+Math.random()*30,a:0,L:.5+Math.random()*.6});
+  for(const b of VB2){if(SIM.run){b.a+=dt/b.L;b.y+=b.v*dt;b.x+=SIM.f*3*dt}const q=PJ(b.x,b.y,b.z),r=(4+5*(1-b.a))*q[2],gg=x.createRadialGradient(q[0],q[1],0,q[0],q[1],r*2.2),c=m.soot>.4?"255,215,120":"150,190,255";
+   gg.addColorStop(0,`rgba(${c},${(.9*(1-b.a)*fade).toFixed(3)})`);gg.addColorStop(1,`rgba(${c},0)`);x.fillStyle=gg;x.beginPath();x.arc(q[0],q[1],r*2.2,0,6.283);x.fill()}VB2=VB2.filter(b=>b.a<1)}
+ x.restore()}
+function step(t){simRaf=requestAnimationFrame(step);if(!document.getElementById("sim")){cancelAnimationFrame(simRaf);return}
+ const dt=Math.min(.05,(t-last)/1000);last=t;
+ if(SIM.run){SIM.ft=(SIM.ft||0)+dt*1000;if(!m.burns)die=Math.min(1,die+dt*.45);
+  if(p<1&&die<1)p=Math.min(1,p+.045*m.spread*(m.burns?1:.4)*dt);else{hold+=dt;if(hold>(die>=1?2.5:1.5)){p=0;hold=0;die=0;TR=[]}}}
+ const dirS=SIM.opp?-1:1,xf=SIM.opp?XR-p*(XR-XL):XL+p*(XR-XL),zone=(SIM.opp?24:46)*M.zone,xc=Math.max(XL+10,Math.min(XR-10,xf-dirS*zone*.5)),live=p<1?1-die:0;
+ const bg=x.createLinearGradient(0,0,0,Hh);bg.addColorStop(0,"#000");bg.addColorStop(1,"#080505");x.globalCompositeOperation="source-over";x.globalAlpha=1;x.fillStyle=bg;x.fillRect(0,0,W,Hh);
+ floor();slab(xf,dirS);preheat(xf,dirS,live);extras(xf,dirS,xc,dt,live);air(dt,xc);if(GP)flame3D(xc,SIM.ft||0,live);else flame(xc,SIM.ft||0,live);
+ x.fillStyle="#B9A597";x.font="13px sans-serif";x.fillText("airflow →",24,24);x.strokeStyle="#6E5A50";x.lineWidth=1;x.beginPath();x.moveTo(94,20);x.lineTo(94+Math.min(SIM.f,30)*6,20);x.stroke();
+ x.fillStyle="rgba(185,165,151,.6)";x.textAlign="right";x.fillText("drag to rotate",W-20,24);x.textAlign="start";
+ if(die>=1){x.fillStyle="rgba(244,232,221,.9)";x.font="15px sans-serif";x.textAlign="center";x.fillText(m.starve?"The flame starved: below 0.6 cm/s in microgravity too little oxygen arrives":"The flame went out: "+M.n+" needs "+m.need.toFixed(1)+" % oxygen here",W/2,Hh-22);x.textAlign="start"}}
+cancelAnimationFrame(simRaf);simRaf=requestAnimationFrame(step);stats();info();
+const rs=()=>{p=0;hold=0;die=0;TR=[]};
+const upd=()=>{const was=m.burns;$("#so").textContent=SIM.o;$("#sf").textContent=SIM.f;stats();info();if(was!==m.burns)rs()};
+$("#sor").oninput=e=>{SIM.o=+e.target.value;upd()};$("#sfr").oninput=e=>{SIM.f=+e.target.value;upd()};
+$("#simplay").onclick=e=>{SIM.run=!SIM.run;e.target.textContent=SIM.run?"Pause":"Play"};
+$("#simrs").onclick=rs;
+$("#simopp").onclick=e=>{SIM.opp=!SIM.opp;e.target.setAttribute("aria-pressed",SIM.opp);e.target.textContent="Opposed flow: "+(SIM.opp?"on":"off");rs();stats();info()};
+$("#simair").onclick=e=>{SIM.air=!SIM.air;e.target.setAttribute("aria-pressed",SIM.air);e.target.textContent="Air movement: "+(SIM.air?"on":"off")};
+$("#simview").onclick=()=>{SIM.yaw=-.38;SIM.pitch=.42};
+$("#simref").onclick=()=>{SIM.rib=true;SIM.mat="pmma";SIM.g=0;SIM.o=26.9;SIM.f=20;SIM.opp=true;simView()};
+document.querySelectorAll("[data-sg]").forEach(b2=>b2.onclick=()=>{SIM.g=+b2.dataset.sg;simView()});
+document.querySelectorAll("[data-sm]").forEach(b2=>b2.onclick=()=>{SIM.rib=false;SIM.mat=b2.dataset.sm;simView()});
+let drag=null;c.style.cursor="grab";c.style.touchAction="none";
+c.onpointerdown=e=>{drag=[e.clientX,e.clientY];c.setPointerCapture(e.pointerId);c.style.cursor="grabbing"};
+c.onpointermove=e=>{if(!drag)return;SIM.yaw=Math.max(-1.3,Math.min(1.3,SIM.yaw+(e.clientX-drag[0])*.006));SIM.pitch=Math.max(.1,Math.min(1.05,SIM.pitch+(e.clientY-drag[1])*.004));drag=[e.clientX,e.clientY]};
+c.onpointerup=c.onpointercancel=()=>{drag=null;c.style.cursor="grab"}}
+function aboutView(){
+$("#view").innerHTML=`<div class="panel"><p class="kick" style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ac);margin:0 0 6px">About us</p>
+<h2 style="font-size:28px;margin-bottom:12px">Why we called it Ember</h2>
+<p>An ember is the small, glowing piece left in a fire. It looks harmless, but it holds enough heat to start the next fire. In a spacecraft or on a Moon or Mars base, the most dangerous fire is the one nobody noticed early, so the name is a reminder to catch the risk while it is still small.</p>
+<p>An ember also keeps glowing after the flames die down. That is what this project does with NASA’s fire research: decades of experiments, papers and flight tests that could easily go cold in an archive are kept alive and put in front of the people designing the next habitats.</p>
+<div class="card" style="margin-top:14px"><p class="mu" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 8px">The letters stand for</p>
+<p style="font-size:20px;margin:0;line-height:1.6;font-family:'Source Serif 4',Georgia,serif"><b style="color:var(--ac)">E</b>vidence <b style="color:var(--ac)">M</b>apping of <b style="color:var(--ac)">B</b>urning in <b style="color:var(--ac)">E</b>xtraterrestrial <b style="color:var(--ac)">R</b>egions</p>
+<p class="mu" style="margin:8px 0 0"><b>Evidence:</b> every answer points back to a NASA source. <b>Mapping:</b> the evidence is placed against each habitat’s air and gravity. <b>Burning:</b> how materials catch fire, how flames spread and how they go out. <b>Extraterrestrial regions:</b> spacecraft, the Moon and Mars, where there is no fire brigade to call.</p></div></div>`}
+function tabs(){cancelAnimationFrame(simRaf);
+$("#tabs").innerHTML=Object.keys(TABS).map(k=>`<button role="tab" data-t="${k}" aria-selected="${S.tab===k}">${TABS[k]}</button>`).join("");
+$("#dlist").innerHTML=DG.map(g=>`<p class="dg">${g[0]}</p>`+g[1].map(k=>`<button data-t="${k}" aria-current="${S.tab===k}">${TABS[k]}</button>`).join("")).join("");
+$("#drawer").classList.remove("open");
+document.querySelectorAll("#habs,#habs+.panel").forEach(e=>e.style.display=S.tab==="sim"||S.tab==="about"?"none":"");
+if(location.hash.slice(1)!==S.tab)location.hash=S.tab;
+({inv:invView,rel:relView,dat:dataView,ctl:ctlView,ai:aiView,res:resView,sim:simView,about:aboutView})[S.tab]();if(S.tab!=="rel"&&S.tab!=="sim")drawMap(rank())}
 function habs(){$("#habs").innerHTML=Object.keys(H).map(k=>`<button data-h="${k}" aria-pressed="${S.hab===k}">${H[k].n}</button>`).join("")}
 
 document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
@@ -241,6 +565,9 @@ else if(b.id==="csvb"){const t=$("#csv");t.hidden=false;t.select();try{navigator
 document.addEventListener("input",e=>{const t=e.target;
 if(t.dataset.w){S.w[t.dataset.w]=+t.value;$("#v_"+t.dataset.w).textContent=t.value;upd()}
 else if(t.dataset.g!==undefined){t.checked?S.gs.add(+t.dataset.g):S.gs.delete(+t.dataset.g);dataView()}});
+$("#menub").onclick=()=>$("#drawer").classList.add("open");$("#dclose").onclick=()=>$("#drawer").classList.remove("open");
+addEventListener("hashchange",()=>{const k=location.hash.slice(1);if(TABS[k]&&k!==S.tab){S.tab=k;tabs()}});
+{const k=location.hash.slice(1);if(TABS[k])S.tab=k}
 habs();tabs();
 </script>
 </body>
