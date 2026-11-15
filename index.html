@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Space fire safety evidence dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>tailwind.config={theme:{extend:{colors:{bg:"var(--bg)",sf:"var(--sf)",ink:"var(--ink)",mu:"var(--mu)",ln:"var(--ln)",ac:"var(--ac)"},boxShadow:{soft:"var(--sh)"}}}}</script>
+<style type="text/tailwindcss">
+:root{--bg:#FBF4EC;--sf:#FFFFFF;--ink:#2A1812;--mu:#6E5A50;--ln:#E4D3C4;--soft:#F1E4D6;--ac:#B8460F;--dusk:#3B1F2B;--hero:#FBF4EC;--on:#fff;--star:transparent;--star2:transparent;--sh:none;--g0:#6A3A66;--g1:#D9922B;--g2:#B8460F;--g3:#8F7A6E;--s1:#B8460F;--s2:#E58A2B;--s3:#F2B35E;--s4:#F8DCAE;--warn:#8F3A12;--ok:#2F6B4A;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1A1210;--sf:#241917;--ink:#F4E8DD;--mu:#B9A597;--ln:#3F2E28;--soft:#2E221E;--ac:#F0914A;--dusk:#120B0C;--hero:#1A1210;--on:#1A0F08;--star:transparent;--star2:transparent;--sh:none;--g0:#C79AD0;--g1:#F2B35E;--g2:#F0914A;--g3:#B9A597;--s1:#F0914A;--s2:#C96A30;--s3:#93501F;--s4:#5E3517;--warn:#F2B27A;--ok:#6FCB92}}
+:root[data-theme="dark"]{--bg:#1A1210;--sf:#241917;--ink:#F4E8DD;--mu:#B9A597;--ln:#3F2E28;--soft:#2E221E;--ac:#F0914A;--dusk:#120B0C;--hero:#1A1210;--on:#1A0F08;--star:transparent;--star2:transparent;--sh:none;--g0:#C79AD0;--g1:#F2B35E;--g2:#F0914A;--g3:#B9A597;--s1:#F0914A;--s2:#C96A30;--s3:#93501F;--s4:#5E3517;--warn:#F2B27A;--ok:#6FCB92}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@layer base{
+body{@apply m-0 text-[15px] leading-normal text-ink;font-family:"Source Sans 3",system-ui,sans-serif;background:var(--bg)}
+h1,h2,.score{font-family:"Source Serif 4",Georgia,serif}
+h2{@apply text-[17px] font-semibold leading-snug mb-2}
+p{@apply mb-2}
+a{@apply text-ac underline}
+button{@apply cursor-pointer rounded-sm border border-ln bg-sf px-3.5 py-1.5 font-medium text-ink transition-colors}
+button:hover:not(:disabled){border-color:var(--ac)}
+button:disabled{@apply opacity-60 cursor-wait}
+button:focus-visible,input:focus-visible,summary:focus-visible{@apply outline outline-2 outline-offset-2 outline-ac}
+svg{@apply block w-full h-auto}
+table{@apply w-full text-[13.5px] tabular-nums}
+th,td{@apply text-left px-2.5 py-1.5 border-b border-[color:var(--soft)] whitespace-nowrap}
+th{@apply text-mu font-medium}
+summary{@apply cursor-pointer text-ac}
+details{@apply text-[13.5px] mt-1.5}
+textarea{@apply w-full h-36 mt-2 text-xs bg-bg text-ink border border-ln rounded-sm;font-family:monospace}
+select{@apply text-ink bg-bg border border-ln rounded-sm px-1.5 py-1}
+input[type=range]{@apply w-full accent-ac}
+mark{background:rgba(255,170,60,.45);@apply text-inherit rounded px-0.5}
+}
+@layer components{
+.mu{@apply text-mu}
+.row{@apply flex flex-wrap gap-2 mt-2 mb-3.5}
+.row label.ck{@apply flex gap-1.5 items-center m-0}
+.panel{@apply bg-sf border border-ln rounded-sm px-4 py-3.5 shadow-soft}
+.panel.hl{@apply border-2 border-ac}
+.panel.hl h2{@apply text-[21px]}
+.card{@apply bg-sf border border-ln rounded-sm px-4 py-3 mb-2.5 shadow-soft}
+.gl{stroke:var(--soft);stroke-width:1}
+.ax{fill:var(--mu);font-size:11px}
+.leg{@apply flex flex-wrap gap-3.5 text-[13px] text-mu mt-1.5}
+.dot{@apply inline-block w-2.5 h-2.5 rounded-full mr-1}
+.grid{@apply grid grid-cols-1 gap-4 min-[761px]:grid-cols-[230px_1fr]}
+label.sl{@apply block text-[13px] mb-2.5}
+label.sl b{@apply float-right font-semibold}
+label.ck{@apply mr-3 text-sm}
+.top{@apply flex gap-3 justify-between items-start}
+.top b{@apply font-semibold}
+.score{@apply text-[22px] font-semibold whitespace-nowrap}
+.tags{@apply flex flex-wrap gap-1.5 my-1.5 text-[12.5px]}
+.tag{@apply border border-ln rounded px-1.5 text-mu}
+.tag.g{@apply text-ink rounded-sm bg-bg;border-width:0 0 0 4px}
+.tag.w{color:var(--warn);border-color:var(--warn)}
+.tag.k{color:var(--ok);border-color:var(--ok)}
+.bar{@apply flex h-2 rounded overflow-hidden bg-bg}
+.tw{@apply overflow-x-auto}
+.ai{@apply whitespace-pre-wrap mt-2 text-sm max-w-[70ch]}
+.ai:empty{display:none}
+input.q{@apply flex-1 min-w-[200px] px-3 py-1.5 text-ink bg-bg border border-ln rounded-sm}
+.topics{@apply items-center}
+.topics button{@apply text-[13.5px] px-3 py-1 border-ac text-ac}
+.topics button:disabled{opacity:.55}
+.tabs{@apply flex gap-1 border-b border-ln mt-[22px] mb-3.5 overflow-x-auto}
+.tabs button{@apply border-0 rounded-b-none rounded-t-md bg-transparent px-3.5 py-2 whitespace-nowrap}
+}
+button[aria-pressed="true"],button[aria-selected="true"]{background:var(--ac);border-color:var(--ac);color:var(--on);font-weight:600}
+.tabs button[aria-selected="true"]{background:none;color:var(--ink);box-shadow:inset 0 -3px 0 var(--ac)}
+.tabs button[data-t="ai"]{@apply text-base text-ac font-semibold mr-2.5;box-shadow:inset 0 0 0 1.5px var(--ac)}
+.tabs button[data-t="ai"][aria-selected="true"]{background:var(--ac);color:var(--on);box-shadow:none}
+</style>
+</head>
+<body>
+<header style="background:var(--dusk);border-bottom:6px solid var(--ac)"><div class="mx-auto max-w-[1040px] px-4 pt-7 pb-6"><p style="margin:0 0 6px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#F2B35E">NASA Glenn and partners · fire safety evidence</p><h1 class="mb-1.5 text-[clamp(24px,3.6vw,32px)] font-semibold leading-tight" style="color:#FFF6EC">Space fire safety evidence dashboard</h1><p style="color:#E9D5C4;max-width:70ch;margin:0">Find, rank and compare fire research for crewed habitats. Choose a habitat to rank the evidence for it.</p></div></header>
+<div class="mx-auto max-w-[1040px] px-4 pt-5 pb-12">
+<div class="my-3 mb-[18px] border border-l-4 border-ln border-l-ac bg-sf px-3.5 py-2.5 text-sm"><b>Only NASA-sourced records.</b> The ranking holds the one record with a stated pressure and oxygen level (N01); other investigations appear in the Investigations tab and Resources. Lunar and Mars base targets use NASA’s recommended 8.2 psia (56.5 kPa) and 34 % O₂; cabin and rover targets use 10.2 psia (70.3 kPa) and 26.5 % O₂ (R21). Scores follow the weights you set. SI text uses only the loaded records and reference notes, so check the sources.</div>
+
+<div class="row" id="habs" role="group" aria-label="Habitat"></div>
+<div class="panel"><h2 id="mt"></h2><div id="map"></div>
+<div class="leg" id="leg"></div></div>
+
+<div class="tabs" role="tablist" id="tabs"></div>
+<div id="view"></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const G={0:"Microgravity",0.16:"Lunar g",0.38:"Mars g",1:"1 g"};
+const GC={0:"--g0",0.16:"--g1",0.38:"--g2",1:"--g3"};
+const FN={material:"Materials",atmosphere:"Atmosphere design",detection:"Detection",suppression:"Suppression",cleanup:"Post-fire cleanup"};
+const H={st:{n:"Space station",p:101,o:21,g:[0]},sc:{n:"Spacecraft cabin",p:70.3,o:26.5,g:[0]},lu:{n:"Lunar base",p:56.5,o:34,g:[0.16]},ma:{n:"Mars base",p:56.5,o:34,g:[0.38]},ro:{n:"Pressurized rover",p:70.3,o:26.5,g:[0.16,0.38]}};
+const L={match:"Habitat fit",data:"Data available",q:"Method quality",rec:"Recency"};
+const SC={match:"--s1",data:"--s2",q:"--s3",rec:"--s4"};
+const R=[
+["N01","Opposed flame spreading along a structured PMMA sample in exploration atmosphere under microgravity",2021,"Conference paper",0,76.1,26.9,"Structured PMMA (ribbed)","ISS (Saffire V)","Spread along rib edges (1 mm ribs)","up to 0.88 mm/s","exp","atmosphere","sc,lu,ma,ro",.5,.7,"med",1,"https://ntrs.nasa.gov/citations/20210017838"]
+].map(a=>({id:a[0],t:a[1],y:a[2],src:a[3],g:a[4],p:a[5],o:a[6],fuel:a[7],fac:a[8],metric:a[9],val:a[10],m:a[11],fn:a[12],hab:a[13].split(","),d:a[14],q:a[15],c:a[16],low:!!a[17],url:a[18],n:parseFloat(a[10].match(/-?\d+(\.\d+)?/)[0]),u:a[10].replace(/^[^\d-]*-?\d+(\.\d+)?\s*/,"")}));
+
+const S={hab:"lu",tab:"ai",fn:"detection",gs:new Set([0,0.16,0.38,1]),w:{match:3,data:2,q:2,rec:1}};
+const SUM={},AIO={};
+let SMdone=true;
+const SM=async(prompt)=>{
+  const res=await fetch("/api/ask-claude",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({prompt})
+  });
+  const data=await res.json();
+  if(!res.ok||data.error)throw new Error(data.error||"Claude API request failed");
+  return{text:data.text};
+};
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const recText=r=>`${r.id}: ${r.t} (${r.y}, ${r.src}); ${G[r.g]}, ${r.p} kPa, ${r.o}% O2; fuel ${r.fuel}; facility ${r.fac}; ${r.metric} = ${r.val}; ${r.m==="exp"?"experiment":"model"}; function: ${FN[r.fn]}; extraction confidence ${r.c}; tested at low or partial gravity: ${r.low?"yes":"no"}`;
+const SYS="You analyze fire safety research for human space exploration. Answer any fire safety question about spacecraft, habitats and crew, including urgent ones from someone in space who needs help. For an urgent situation, lead with the immediate actions in plain short steps, tell them to follow their vehicle’s emergency procedures and contact mission control, and never claim to replace them. Use the loaded records and reference notes first. Where they do not cover the question, answer from your general fire safety, spacecraft and combustion knowledge, and begin that part with General knowledge: so it is clear it did not come from the loaded sources; never give it a citation. Cite record IDs in square brackets, like [N01], for every claim. Records come from real NASA sources (IDs starting with N), and reference documents are cited as [R1] etc.: say when evidence is thin, or when it may not transfer between gravity regimes (microgravity, lunar, Mars, 1 g), between atmospheres, or between experiments and models. Never invent values, mechanisms, or citations. You may draw your own conclusions by combining the sources: when you do, begin the sentence with Inference:, cite the records or references it rests on, and say how confident it is and what evidence would change it. Do not present an inference as something a source states. Highlight key phrases (key values, actions, warnings, the main takeaway of each cited experiment) by wrapping each in double asterisks, like **this**. Do this in the opening phrase and also throughout the explanation: every section and paragraph (Recommendation, Caution, and each similar experiment) needs 1 to 3 highlights, so the highlights are never limited to the first line. Use no other markdown. Plain text, short paragraphs, no markdown headers.";
+async function ai(p,o,b,st){o.textContent="Thinking…";b.disabled=true;try{const r=await SM(SYS+refs()+"\n\n"+p,{cache:false,onText:({text})=>{o.innerHTML=hl(text)}});o.innerHTML=hl(r.text);st(r.text)}catch(e){o.textContent=e&&e.code==="not_granted"?"Claude access wasn’t granted for this page.":e&&e.code==="rate_limited"?"Too many requests. Wait a moment, then try again.":"The request failed. Try again."}finally{b.disabled=false}}
+const hl=s=>esc(s).replace(/\*\*([^*]+)\*\*/g,"<mark>$1</mark>").replace(/\*\*/g,"");
+function fmt(t,done){const m=t.split(/\n[ \t]*Topics to explore:?[ \t]*(?:\n|$)/i),L=m[0].trim().split("\n"),ph=L.shift();
+let h=`<div class="ai"><b>${hl(ph)}</b>\n${hl(L.join("\n"))}</div>`;
+if(done&&m[1]){const ts=m[1].split("\n").map(s=>s.replace(/^[\s\-•*\d.)]+/,"").trim()).filter(Boolean).slice(0,4);
+if(ts.length)h+=`<div class="tags topics" style="margin-top:10px"><span class="mu">Explore further:</span>${ts.map(x=>`<button data-top="${esc(x).replace(/"/g,"&quot;")}">${esc(x)}</button>`).join("")}</div>`}return h}
+async function ask2(p,label,b){const root=$("#ao"),box=document.createElement("div");box.className="card";
+box.innerHTML=`<p class="mu" style="margin:0 0 6px">${esc(label)}</p><div class="body"><div class="ai">Thinking…</div></div>`;root.appendChild(box);
+const body=box.querySelector(".body");if(b)b.disabled=true;
+try{const r=await SM(SYS+refs()+"\n\n"+p,{cache:false,onText:({text})=>{body.innerHTML=fmt(text,false)}});body.innerHTML=fmt(r.text,true);AIO.thread=root.innerHTML}
+catch(e){if(b&&b.id!=="askb")b.disabled=false;body.textContent=e&&e.code==="not_granted"?"Claude access wasn’t granted for this page.":e&&e.code==="rate_limited"?"Too many requests. Wait a moment, then try again.":"The request failed. Try again."}
+finally{if(b&&b.id==="askb")b.disabled=false}}
+
+function comps(r){const h=H[S.hab];const atm=Math.max(0,1-Math.hypot((r.p-h.p)/40,(r.o-h.o)/15));
+const gf=h.g.includes(r.g)?1:r.g===1?.2:r.g===0?.35:.6;
+return{match:(atm+gf)/2,data:r.d,q:r.q,rec:Math.min(1,Math.max(0,(r.y-2016)/8))}}
+function rank(){const sum=Object.values(S.w).reduce((a,b)=>a+b,0)||1;
+return R.map(r=>{const c=comps(r),parts={};let t=0;for(const k in S.w){parts[k]=S.w[k]*c[k]/sum*100;t+=parts[k]}return{r,parts,t,c}}).sort((a,b)=>b.t-a.t)}
+
+function drawMap(rk){const X0=48,X1=624,Y0=14,Y1=262,sx=o=>X0+(o-15)/25*(X1-X0),sy=p=>Y1-(p-40)/70*(Y1-Y0);
+let s='<svg viewBox="0 0 640 300" role="img" aria-label="Test pressure versus oxygen fraction for each record, colored by gravity level">';
+for(let o=15;o<=40;o+=5)s+=`<line class="gl" x1="${sx(o)}" x2="${sx(o)}" y1="${Y0}" y2="${Y1}"/><text class="ax" x="${sx(o)}" y="${Y1+16}" text-anchor="middle">${o}</text>`;
+for(let p=40;p<=110;p+=10)s+=`<line class="gl" x1="${X0}" x2="${X1}" y1="${sy(p)}" y2="${sy(p)}"/><text class="ax" x="${X0-6}" y="${sy(p)+4}" text-anchor="end">${p}</text>`;
+s+=`<text class="ax" x="${(X0+X1)/2}" y="296" text-anchor="middle">Oxygen in test atmosphere (%)</text><text class="ax" transform="translate(12 ${(Y0+Y1)/2}) rotate(-90)" text-anchor="middle">Pressure (kPa)</text>`;
+const h=H[S.hab];
+s+=`<circle cx="${sx(h.o)}" cy="${sy(h.p)}" r="20" fill="none" style="stroke:var(--ink)" stroke-width="1.5" stroke-dasharray="4 3"/><text class="ax" style="fill:var(--ink);font-weight:600" x="${sx(h.o)+24}" y="${sy(h.p)-18}">${h.n} target</text>`;
+rk.forEach((e,i)=>{const r=e.r,k=R.indexOf(r),jx=((k*7)%9-4)*3.2,jy=((k*5)%7-3)*3.2,top=i<3;
+s+=`<circle cx="${sx(r.o)+jx}" cy="${sy(r.p)+jy}" r="${(5+e.t/100*9).toFixed(1)}" style="fill:var(${GC[r.g]});fill-opacity:${top?.95:.55};stroke:var(--ink)" stroke-width="${top?2:0}"><title>${r.id} · ${r.t} · score ${e.t.toFixed(0)}</title></circle>`});
+$("#map").innerHTML=s+"</svg>";
+$("#mt").textContent="Where the evidence sits relative to the "+h.n.toLowerCase()+" atmosphere";
+$("#leg").innerHTML=Object.keys(G).map(g=>`<span><i class="dot" style="background:var(${GC[g]})"></i>${G[g]}</span>`).join("")+"<span>Larger dots score higher. Outlined dots are the top three. Positions are nudged so overlapping records stay visible.</span>"}
+
+const tag=r=>`<span class="tag g" style="border-color:var(${GC[r.g]})">${G[r.g]}</span><span class="tag">${r.p} kPa, ${r.o} % O₂</span><span class="tag">${r.src}, ${r.y}</span><span class="tag">${r.m==="exp"?"Experiment":"Model"}</span>`;
+const conf=r=>r.c==="low"?'<span class="tag w">Low-confidence extraction: check before use</span>':r.c==="med"?'<span class="tag">Medium confidence</span>':'<span class="tag k">High confidence</span>';
+
+function card(e,n){const r=e.r;
+return`<div class="card"><div class="top"><div><b>${n?n+". ":""}${r.t}</b><div class="tags">${tag(r)}${conf(r)}</div></div><div class="score">${e.t.toFixed(0)}</div></div>
+<div class="bar" aria-hidden="true">${Object.keys(L).map(k=>`<i style="width:${e.parts[k]}%;background:var(${SC[k]})"></i>`).join("")}</div>
+<details><summary>Why this score</summary><p>${Object.keys(L).map(k=>`<i class="dot" style="background:var(${SC[k]})"></i>${L[k]}: ${(e.c[k]*100).toFixed(0)}/100 (weight ${S.w[k]})`).join("<br>")}</p>
+<p>${r.metric}: <b>${r.val}</b> on ${r.fuel} (${r.fac}). Relevant to: ${r.hab.map(x=>H[x].n).join(", ")}.</p>${r.url?`<p><a href="${r.url}" target="_blank" rel="noopener">Open NASA source</a></p>`:""}${SM?`<button data-sum="${r.id}">SI summary</button><div class="ai" id="sum_${r.id}">${hl(SUM[r.id]||"")}</div>`:""}</details></div>`}
+
+function relView(){
+$("#view").innerHTML=`<div class="grid"><div><div class="panel"><h2>Ranking weights</h2>${Object.keys(L).map(k=>`<label class="sl">${L[k]} <b id="v_${k}">${S.w[k]}</b><input type="range" min="0" max="5" value="${S.w[k]}" data-w="${k}"></label>`).join("")}<p class="mu" style="font-size:13px;margin:0">Set a weight to 0 to ignore that factor.</p></div></div><div id="list"></div></div>`;
+upd()}
+function upd(){const rk=rank();drawMap(rk);const l=$("#list");if(l)l.innerHTML=rk.map((e,i)=>card(e,i+1)).join("")}
+
+function dataView(){
+const rows=R.filter(r=>S.gs.has(r.g));
+const cnt=g=>R.filter(r=>r.g===+g).length,gaps=Object.keys(G).filter(g=>+g!==1).sort((a,b)=>cnt(a)-cnt(b));
+const csv=["id,title,year,source,gravity,pressure_kPa,O2_pct,fuel,facility,metric,value,method,confidence"].concat(rows.map(r=>[r.id,r.t,r.y,r.src,G[r.g],r.p,r.o,r.fuel,r.fac,r.metric,r.val,r.m,r.c].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(","))).join("\n");
+$("#view").innerHTML=`<div class="panel"><h2>Records for predictive modeling</h2>
+<p><b>Coverage gap:</b> ${Object.keys(G).map(g=>`${G[g]} ${cnt(g)}`).join(", ")}. Thinnest partial-gravity coverage: <b>${G[gaps[0]]}</b>.</p>
+<div style="margin-bottom:8px">${Object.keys(G).map(g=>`<label class="ck"><input type="checkbox" data-g="${g}" ${S.gs.has(+g)?"checked":""}> ${G[g]}</label>`).join("")}</div>
+<div class="tw"><table><thead><tr><th>ID</th><th>Gravity</th><th>kPa</th><th>O₂ %</th><th>Fuel</th><th>Metric</th><th>Value</th><th>Type</th><th>Confidence</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.id}</td><td>${G[r.g]}</td><td>${r.p}</td><td>${r.o}</td><td>${r.fuel}</td><td>${r.metric}</td><td>${r.val}</td><td>${r.m==="exp"?"Experiment":"Model"}</td><td>${r.c}</td></tr>`).join("")}</tbody></table></div>
+<div class="row"><button id="csvb">Copy ${rows.length} rows as CSV</button></div><textarea id="csv" hidden aria-label="CSV data" readonly>${csv.replace(/</g,"&lt;")}</textarea></div>`}
+
+function ctlView(){
+const rk=rank().filter(e=>e.r.fn===S.fn),lo=rk.filter(e=>e.r.low).length;
+$("#view").innerHTML=`<div class="row" role="group" aria-label="Safety function">${Object.keys(FN).map(f=>`<button data-f="${f}" aria-pressed="${S.fn===f}">${FN[f]} (${R.filter(r=>r.fn===f).length})</button>`).join("")}</div>
+<p>${lo} of ${rk.length} ${FN[S.fn].toLowerCase()} records tested at microgravity or partial gravity. Ground-only results may not transfer to low gravity, so they are flagged.</p>
+${rk.map(e=>card(e,0).replace('<div class="tags">','<div class="tags">'+(e.r.low?'<span class="tag k">Tested at low or partial g</span>':'<span class="tag w">Ground-only: may not transfer</span>'))).join("")}`}
+
+const RES=[
+{id:"R1",t:"Saffire: a novel approach to study of spacecraft fire safety using unmanned spacecraft",y:"2018",k:"NASA presentation",u:"https://ntrs.nasa.gov/api/citations/20180005168/downloads/20180005168.pdf",n:"Saffire overview (Urban, Ferkul and others, NASA Glenn). Saffire was the first test of spacecraft fires at a scale relevant to real spacecraft, run aboard unmanned Cygnus after it left the ISS, with data downlinked before re-entry. Objectives: Saffire 1 and 3 assess flame spread of a large-scale microgravity fire; Saffire 2 verifies oxygen flammability limits in low gravity. Ignition: Saffire 1, 165 W for 8 s on 40.6 cm wide SIBAL; Saffire 2, 80 W for 9.2 s on 5 cm wide SIBAL. Concurrent flames can reach a steady spread rate. Checked against the abstract and slides."},
+{id:"R2",t:"Fire safety implications of preliminary results from Saffire IV and V experiments on large scale spacecraft fires",y:"2021",k:"ICES presentation",u:"https://ntrs.nasa.gov/api/citations/20210017780/downloads/Saffire%20ICES%202021%20Saffire%20Final%20presentation%20compressed.pdf",n:"Slide deck for the Saffire IV and V paper (full paper: R23). Saffire IV to VI objectives: thick fuels, longer burns, exploration atmospheres, effect on the vehicle and post-fire recovery. Executed matrix at 20 cm/s: IV-1 SIBAL 50 cm, IV-2 two-sided PMMA 18 cm, V-2 cotton jersey 50 cm, V-3 one-sided PMMA 18 cm (concurrent), V-4 structured PMMA 20 cm (opposed). Duct size and flow development can change spread rate and pyrolysis length (Saffire I to III used a 46 cm duct, Saffire IV a 30 cm duct). Extinguishment of thin charring fuels at increased oxygen cannot be assumed to be rapid. Checked against the slides."},
+{id:"R3",t:"Opposed flame spreading along a structured PMMA sample in exploration atmosphere under microgravity",y:"2021",k:"ICES paper",u:"https://ntrs.nasa.gov/citations/20210017838",n:"Saffire V, Cygnus flight NG-14, January 2021: PMMA 200 × 400 mm, 10 mm thick, with ribs 1 to 10 mm wide and 3 mm high on both sides. Opposed flow at 20 cm/s for 360 s then 5 cm/s for 300 s, at 761 hPa and 26.9 vol % O₂. Flames spread along rib edges at up to 0.88 mm/s (1 mm ribs); wider ribs were slower, and the 10 mm rib showed two largely independent edge flames. This is record N01. Checked."},
+{id:"R4",t:"Preliminary results from the Saffire VI experiment",y:"added 2024",k:"NASA report",u:"https://ntrs.nasa.gov/citations/20240002981",n:"Saffire VI, the last flight. Abstract: concurrent spread over samples 41 cm wide: cotton-fiberglass sheet 50 cm long, two-sided 1 cm PMMA 18 cm, one-sided 0.5 cm PMMA 18 cm, and Nomex 7 cm; tests spanned 1.5 to 3.2 kW with free air volumes of 17 to 19 m³. The slide deck (NTRS 20240007488) says Saffire VI flew in December 2023, oxidizer flow was 20 cm/s, and the duct was 45 cm wide, 109 cm long and 15 cm half-height. Designers have lacked low-gravity data and relied on 1 g understanding of flame spread, self-extinguishment, detection and suppression. Checked against the abstracts and slides."},
+{id:"R5",t:"Flame temperature by broadband two-color pyrometry for a flame spreading over a thin solid in microgravity",y:"added 2022",k:"NASA paper",u:"https://ntrs.nasa.gov/citations/20220012861",n:"Thomsen and co-authors, Proceedings of the Combustion Institute 39 (2023). Uses Saffire IV (Cygnus CRS-15) images of a cotton-fiberglass (SIBAL) fabric in 20 cm/s concurrent flow to reconstruct flame temperature fields by broadband two-color pyrometry, and discusses applying the method to other microgravity experiments. Checked against the abstract."},
+{id:"R6",t:"NASA Physical Sciences Informatics (PSI) system: combustion experiments",y:"ongoing",k:"Data system",u:"https://science.nasa.gov/physical-sciences-informatics-psi/nasa-psi-research-opportunity",n:"PSI is NASA’s open repository of data from reduced-gravity physical science experiments on the ISS, Shuttle, parabolic flights, free flyers, commercial cargo flights and ground studies. NASA reported in July 2025 that it holds over 100 investigation datasets, about 30 TB. Combustion investigations named in a NASA PSI announcement include ACME BRE, CLD Flame, E-Field Flames and s-Flames, BASS, BASS-II, CFI, DAFT and DAFT-2, FLEX, FLEX-2, SAFFIRE III, SAME, SAME-R, SLICE and SPICE. Checked."},
+{id:"R7",t:"PSI Data Repository: combustion search",y:"ongoing",k:"Data repository",u:"https://psi.nasa.gov/physci/repo/search?q=combustion",n:"Checked: the search page loads results with scripts and returned no readable records, so no records from it are used. Individual PSI experiment pages would need to be opened one by one."},
+{id:"R8",t:"NASA Combustion Science (Glenn)",y:"ongoing",k:"NASA program page",u:"https://www.nasa.gov/glenn/glenn-expertise-space-exploration/physical-sciences-program/combustion-science/",n:"Current experiments: FM2 (burning materials at the Moon’s 1/6 gravity, the first combustion experiment on another planetary body), SoFIE (notes some researchers believe the NASA-STD-6001 1-g test is not conservative in low gravity), FLARE (relating normal-gravity and microgravity flammability limits). Archived: ACME, BASS (burning and extinction of many fuel samples), DAFT (checks a modified P-Trak, a SAME component, in microgravity), FLEX (inert-gas suppressants and limiting oxygen index), Saffire, SAME, SLICE, SPICE. The Combustion Integrated Rack has a 100 L chamber and launched in November 2008 on STS-126; MDCA runs in it. Checked."},
+{id:"R9",t:"NASA ScienceCasts: The Power of Studying Combustion on the ISS",y:"n/a",k:"Video",u:"https://www.youtube.com/watch?v=W1oXykoz9zg",n:"NASA ScienceCasts video published March 14, 2018. NASA’s text for it says scientists are using the ISS microgravity environment to study combustion through a series of experiments, notes that about 85 % of the energy we use comes from combustion, and mentions FLEX (last droplet experiments September 2017), SoFIE and ACME in the Combustion Integrated Rack. Checked through NASA’s text for the video; the video itself was not watched."},
+{id:"R10",t:"A Researcher’s Guide to International Space Station Combustion Science",y:"2015 edition",k:"NASA guide",u:"https://www.nasa.gov/missions/station/a-researchers-guide-to-combustion-science/",n:"Researcher’s Guide, October 2015 edition, published by the NASA ISS Program Science Office with Glenn authors. It is meant to help researchers plan ISS combustion experiments and covers the ISS acceleration environment, facilities (CIR, MSG, EXPRESS racks), past results (droplet combustion, E-FIELD Flames, Flame Design, s-Flame, solid-fuel flammability, BASS) and current projects. Checked against the table of contents and introduction; the chapters were not read."},
+{id:"R11",t:"Apollo 1 (AS-204)",y:"1967 event",k:"NASA SMA case page",u:"https://sma.nasa.gov/sma-disciplines/accllp/apollo-1",n:"Jan. 27, 1967 flash fire in the command module during a launch-pad test, cabin at 100% oxygen with hatches closed. Pathologists concluded the crew died of asphyxia from carbon monoxide and other toxic gases. The board found arcing in wires near the environment control system but no specific ignition source. The three-piece hatch took 90 s to open under ideal conditions. Changes: a unified hatch openable in 3 s, restricted combustible materials, fire-resistant suit materials. A ground event, not a low-gravity test. Checked."},
+{id:"R12",t:"Apollo 13",y:"1970 event",k:"NASA SMA case page",u:"https://sma.nasa.gov/sma-disciplines/accllp/apollo-13",n:"Oxygen tank explosion, not a cabin fire. The board traced it to heaters whose thermostats were not upgraded when voltage rose from 28 to 65 V DC; overheating on the pad degraded Teflon insulation. Redesign: a third tank in another bay, upgraded thermostats, no stirring fans, stainless-steel-sheathed wiring. Checked."},
+{id:"R13",t:"25 Years Ago: Fire Aboard Space Station Mir",y:"1997 event",k:"NASA history article",u:"https://www.nasa.gov/history/25-years-ago-fire-aboard-space-station-mir/",n:"Feb. 24, 1997: a solid-fuel oxygen generator canister ignited in Kvant-1, blocking the route to a Soyuz and filling the station with smoke. The crew used foam extinguishers and life support cleared the smoke over several hours. Investigators judged hydrocarbons, probably latex glove material, raised the risk. Checked."},
+{id:"R14",t:"Fireman’s Air Tanks",y:"n/a",k:"NASA Spinoff",u:"https://spinoff.nasa.gov/node/9582",n:"NASA Spinoff, originally published 1976. Scott Aviation developed lightweight firefighter air tanks with NASA Johnson Space Center: a 20 lb backpack with a 30 minute air supply, 13 lb lighter than conventional tanks, pressurized to 4,500 psi, aluminum liner wrapped in resin-impregnated glass fibers. Checked."},
+{id:"R15",t:"Fire Detector",y:"n/a",k:"NASA Spinoff",u:"https://spinoff.nasa.gov/node/9407",n:"NASA Spinoff, originally published 1978. The Brunswick Incipient Fire Detector, originally used in space shuttle orbiters, samples air for combustion particles and can tell them from dust, so it is less prone to false alarms. Checked."},
+{id:"R16",t:"New Technology for the Fire Attire",y:"n/a",k:"NASA Spinoff",u:"https://spinoff.nasa.gov/node/9918",n:"NASA Spinoff, originally published 1982. Project FIRES (Firefighter’s Integrated Response Equipment System), sponsored by NASA and the U.S. Fire Administration, managed by Marshall Space Flight Center, applied heat-protective materials developed for astronaut suits and spacecraft to firefighter gear; fourteen municipal fire departments took part in field evaluation. Checked."},
+{id:"R17",t:"Saffire overview presentation (NTRS 20160010292)",y:"2016",k:"NASA presentation",u:"https://ntrs.nasa.gov/api/citations/20160010292/downloads/20160010292.pdf",n:"Objectives: Saffire-I assess flame spread of a large-scale microgravity fire; Saffire-II verify oxygen flammability limits in low gravity; Saffire-III similar to I. Data: video (flame size, position, spread rate), radiometer, thermocouples (stand-off distance, temperature). Saffire-II: nine samples, 5 × 29 cm, four materials (PMMA, SIBAL, Nomex, silicone). Checked."},
+{id:"R18",t:"Particle Morphology and Size Results from the Smoke Aerosol Measurement Experiment-2",y:"2013",k:"NASA conference paper",u:"https://ntrs.nasa.gov/citations/20130000422",n:"SAME-2 reflew during Expedition 24 (July to September 2010) after the Expedition 15 flight, adding a prototype two-moment smoke detector and three moment measures, and expanding the test matrix. Checked against the abstract."},
+{id:"R19",t:"Progress and Challenges in Spacecraft Fire Detection",y:"2022",k:"NASA presentation",u:"https://ntrs.nasa.gov/api/citations/20220009167/downloads/DRI%20Talk%20v2.pdf",n:"SAME summary: smoke ages over detection-relevant times; the ISS forward light-scattering detector responded less to the smallest particles; particle size varies with fuel and pyrolysis conditions. Checked against the slides."},
+{id:"R20",t:"Preliminary Results from the Saffire VI Experiment (slides)",y:"2024",k:"ICES presentation",u:"https://ntrs.nasa.gov/citations/20240007488",n:"Saffire VI executed matrix at 20 cm/s: VI-2 SIBAL 50 cm, VI-3 two-sided PMMA 18 cm, VI-4 one-sided PMMA 18 cm. The flow was reduced from 20 to 5 cm/s in VI-3 before being terminated. Checked against the abstract and slides."},
+{id:"R21",t:"Exploration atmosphere and decompression sickness strategy (AsMA 2022)",y:"2022",k:"NASA presentation",u:"https://ntrs.nasa.gov/api/citations/20220005709/downloads/AsMA%202022%20-%20Abercromby%20-%20DCS%20Strategic%20Plan%20v2.pdf",n:"The Exploration Atmosphere Working Group recommended 8.2 psia (56.5 kPa) and 34 % O₂ as a capability for future missions, balancing prebreathe duration, hypoxia and flammability. It is recommended, not required. Assumes a 4.3 psia (29.6 kPa) spacesuit. 10.2 psia with 26.5 % O₂ is the shuttle and ISS airlock campout atmosphere. Checked against the slides."},
+{id:"R22",t:"Studying flames in microgravity is helping make combustion on Earth cleaner, and space safer",y:"2019",k:"NASA news release",u:"https://www.eurekalert.org/news-releases/575615",n:"Describes the Combustion Integrated Rack launching in 2008, FLEX studying fire suppressants with burning droplets and accidentally finding cool flames, and the Flame Design investigation studying soot produced under different flame conditions. Checked."},
+{id:"R23",t:"Fire Safety Implications of Preliminary Results from Saffire IV and V (ICES-2021-266)",y:"2021",k:"ICES paper",u:"https://ntrs.nasa.gov/api/citations/20210011521/downloads/ICES%202021-266%200503-2021%20final.pdf",n:"Saffire IV to VI were planned over three flights; the paper covers IV and V. Experiments included a post-fire cleanup system, vehicle internal volume measurements and transport of acid gases (HCl and HF). Gives new understanding of how sample and flow duct height affect flame spread and growth. Checked against the abstract and introduction."},
+{id:"R24",t:"Development of the International Space Station Fine Water Mist Portable Fire Extinguisher",y:"2013",k:"NASA conference paper",u:"https://ntrs.nasa.gov/citations/20130011664",n:"The ISS uses a water-foam extinguisher in the Russian segment and a carbon dioxide extinguisher in the US segment. ISS emergency breathing equipment does not filter CO₂, so a crew member discharging the CO₂ extinguisher needs an oxygen supply, which raises oxygen in a fire. NASA developed a nontoxic fine water mist extinguisher that puts out fire mostly by removing heat without creating a hazardous breathing environment. Checked against the abstracts."},
+{id:"R25",t:"ISS Environmental Control and Life Support System Overview of Events 2024-2025",y:"2026",k:"NASA and Boeing conference paper",u:"https://ntrs.nasa.gov/api/citations/20260002987/downloads/ISS%20ECLS%20Overview%20of%20Events%202025%20Final.pdf",n:"ISS fire detection and suppression covers smoke detection, fire isolation, fire extinguishment and fire recovery. The cartridge-based Emergency Masks, used for ammonia and fire response, were found unfit after a fleet-wide failure in 2023, so in July 2024 the Space Station Program Control Board approved pressurized Air Portable Breathing Apparatus units as primary personal protective equipment for fire response until replacement Emergency Respirators arrive. A user with high breathing demand can draw negative pressure inside the mask and inhale cabin air. Checked against the full paper."},
+{id:"R26",t:"ISS emergency response operations: history of philosophy, procedures, training and equipment",y:"2023",k:"NASA SpaceOps paper",u:"https://ntrs.nasa.gov/api/citations/20220019247/downloads/Emergency%20Ops%20History%20for%20SpaceOps%20Conference%202023.pdf",n:"Describes how ISS emergency response is run. Emergency response readiness, procedures, flight rules and crew training are the responsibility of the ECLSS flight control team, which serves as subject matter expert for the three non-medical emergency scenarios. Checked against excerpts only, not the full paper."}];
+const refs=()=>"\n\nReference sources (real NASA documents, known only from their abstracts and slides; cite them as [R1] etc., and do not state details beyond these notes):\n"+RES.map(r=>`[${r.id}] ${r.t} (${r.y}): ${r.n}`).join("\n");
+function resView(){$("#view").innerHTML=`<div class="panel"><h2>Resources the SI draws on</h2><p class="mu">Real NASA documents in the SI’s reference list. The notes come from abstracts, slides and a few web pages, not the full papers, so check details in the source before relying on them. Entries marked as title-only or not re-checked were not verified.</p></div>`+RES.map(r=>`<div class="card"><b>${r.id}: ${r.t}</b><div class="tags"><span class="tag">${r.y}</span><span class="tag">${r.k}</span></div><p>${r.n}</p><a href="${r.u}" target="_blank" rel="noopener">Open source</a></div>`).join("")}
+function aiView(){
+if(!SM){$("#view").innerHTML='<div class="panel hl"><h2>SI recommendations</h2><p>'+(SMdone?'Claude isn’t available in this view. Open the published page while signed in to claude.ai to use recommendations, summaries, and questions.':'Connecting to Claude…')+'</p></div>';return}
+const h=H[S.hab],k=S.hab+JSON.stringify(S.w);
+$("#view").innerHTML=`<div class="panel hl"><h2>SI recommendations for the ${h.n.toLowerCase()}</h2><p class="mu">Reads the top-ranked records under your current weights, then writes findings, cautions, gaps, and recommendations that cite record IDs.</p><button id="brief" aria-pressed="true">Generate recommendations</button><div class="ai" id="bo">${hl(AIO[k]||"")}</div></div><div class="panel" style="margin-top:12px"><h2>Ask the SI</h2><p class="mu">Ask a fire safety question. The SI answers with a short phrase, then gives the details: similar experiments it cites, a recommendation, and cautions. It answers from the loaded NASA sources first and, where they do not cover the question, from general fire safety knowledge, labeled as such. It is a reference aid, not a replacement for mission procedures or mission control.</p><div class="row"><input class="q" id="q" type="text" placeholder="A fire alarm sounds in the cabin. What should the crew do first?" aria-label="Question"><button id="askb">Ask</button></div><div id="ao">${AIO.thread||""}</div></div>`}
+const IG={
+acme:{n:"ACME (CIR)",same:"Same (hardware claim per the brief; NASA describes ACME as six studies in the CIR, R9): all six experiments used one modular set of ACME hardware in the Combustion Integrated Rack (CIR) and burned gaseous fuels.",vary:"Varies: the scientific question, from materials flammability to cool flames to electric-field effects.",rows:[["BRE","Materials flammability in still atmospheres as a function of material properties","Gaseous fuel (burning rate emulator, not a solid sample)","Still atmosphere","Direct: emulates solid-material flammability"],["CFI-G","Cool flames of gases, including at very high oxygen","N₂ plus a flammable gas (e.g. propane) in the chamber; an O₂–N₂ mix flows out of a spherical burner, giving an inside-out flame","O₂ up to 85 %","Highest-O₂ microgravity tests: bounds enriched lunar atmospheres"],["E-FIELD Flames","Electric-field effects on laminar diffusion flames","Gaseous","Field acts on flame ions, mimicking partial gravity","Partial-gravity proxy, not true partial g"],["CLD Flame","Coflow laminar diffusion flame (name from the PSI list, R6)","Gaseous","See PSI","Indirect"],["s-Flames","Structure and response of spherical diffusion flames (R6)","Gaseous","See PSI","Indirect"],["Flame Design","Soot produced under different flame conditions (R22)","Gaseous","See PSI","Indirect"]]},
+mdca:{n:"MDCA (CIR)",same:"Same: FLEX, FLEX-2 and CFI burned droplets of liquid fuel in the Multi-user Droplet Combustion Apparatus (MDCA) in the CIR.",vary:"Varies: see each PSI record for fuels, droplet sizes and atmospheres.",rows:[["FLEX","Inert-gas suppressant effectiveness and limiting oxygen index (R8)","Liquid fuel droplet","See PSI","Indirect"],["FLEX-2","Droplet combustion","Liquid fuel droplet","See PSI","Indirect"],["CFI","Cool Flames Investigation","Liquid fuel droplet","See PSI","Indirect"]]},
+msg:{n:"Flow duct (MSG)",same:"Same: all four ran in the Microgravity Science Glovebox (MSG) using the modular fan-driven flow duct built for SPICE.",vary:"Varies: collectively solid and gaseous fuels. Per-test fuel, O₂ and flow speed: see PSI.",rows:[["BASS","Burning and extinction of a wide variety of fuel samples (R8)","Solid and/or gaseous","See PSI","Direct for solid-fuel work"],["BASS-II","Not described in this brief","Solid and/or gaseous","See PSI","Direct for solid-fuel work"],["SPICE","Smoke Point In Co-flow Experiment","Gaseous","See PSI","Smoke production: informs detection"],["SLICE","Structure & Liftoff In Combustion Experiment","Gaseous","See PSI","Indirect"]]},
+det:{n:"Detection (SAME, DAFT)",same:"Same (per the brief): the instrument used in SAME and SAME-R was reused to detect dust in DAFT and DAFT-2. NASA’s Glenn page instead describes DAFT as a check that a modified P-Trak, a SAME component, works in microgravity (R8).",vary:"Varies: target (smoke versus dust).",rows:[["SAME / SAME-R","Smoke detection","Smoke from heated materials","See PSI","Direct: detector design"],["DAFT / DAFT-2","Dust and Aerosol Measurement Feasibility Test","Dust","See PSI","Direct: same instrument, different target"]]},
+saf:{n:"Saffire",same:"Same: unmanned Cygnus spacecraft, large samples, no crew aboard (see R1 to R4).",vary:"Varies: sample material and size, flow, and atmosphere.",rows:[["Saffire I–III","Large-scale flame spread (I, III); oxygen flammability limits (II)","I and III: 40 cm wide samples in a 46 cm duct. II: array of 9 samples, 5 × 29 cm","See R17","Direct"],["Saffire IV–V","Spread and growth, plus effect on the vehicle","PMMA and cotton; structured PMMA","Structured PMMA test: 76.1 kPa, 26.9 % O₂; flow 20 cm/s in the other tests (R2)","Direct"],["Saffire VI","Final flight","Not re-checked in this pass","See R4","Direct"]]}};
+function invView(){S.ig=S.ig||"acme";const g=IG[S.ig];
+$("#view").innerHTML=`<div class="panel"><h2>Atmospheres and the gravity gap</h2><p>Spacesuit: 100 % O₂ at 4.3 psi (29.6 kPa). Sea level: 14.7 psi (101.3 kPa). To shorten prebreathe, NASA’s Exploration Atmosphere Working Group recommended 8.2 psia (56.5 kPa) with 34 % O₂ for future habitats, a recommendation rather than a requirement; the shuttle and ISS airlock campout atmosphere is 10.2 psia (70.3 kPa) with 26.5 % O₂ (R21). Both carry more oxygen than air, which makes materials more flammable.</p><p><b>Partial gravity:</b> PSI has no partial-gravity combustion data yet; LUCI and FM2 may add some (brief). NASA describes FM2 as burning materials at the Moon’s 1/6 gravity (R8). Microgravity and 1 g results could bound intermediate levels. E-FIELD Flames only mimics partial gravity with an electric field.</p></div>
+<div class="row" role="group" aria-label="Investigation group">${Object.keys(IG).map(k=>`<button data-ig="${k}" aria-pressed="${S.ig===k}">${IG[k].n}</button>`).join("")}</div>
+<div class="panel"><p>${g.same}</p><p>${g.vary}</p><div class="tw"><table><thead><tr><th>Investigation</th><th>Objective</th><th>Fuel and sample</th><th>Conditions</th><th>Fire-safety relevance</th></tr></thead><tbody>${g.rows.map(r=>`<tr>${r.map(c=>`<td style="white-space:normal;min-width:130px">${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div><p class="mu" style="margin-top:8px">Details come from the research brief you supplied. “See PSI” means the attribute was not provided; check the PSI record.</p></div>`}
+function tabs(){const T={ai:"SI recommendations",rel:"Relevant work",inv:"Investigations",dat:"Modeling data",ctl:"Controls and equipment",res:"Resources"};
+$("#tabs").innerHTML=Object.keys(T).map(k=>`<button role="tab" data-t="${k}" aria-selected="${S.tab===k}">${T[k]}</button>`).join("");
+({inv:invView,rel:relView,dat:dataView,ctl:ctlView,ai:aiView,res:resView})[S.tab]();if(S.tab!=="rel")drawMap(rank())}
+function habs(){$("#habs").innerHTML=Object.keys(H).map(k=>`<button data-h="${k}" aria-pressed="${S.hab===k}">${H[k].n}</button>`).join("")}
+
+document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+if(b.dataset.h){S.hab=b.dataset.h;habs();tabs()}
+else if(b.dataset.t){S.tab=b.dataset.t;tabs()}
+else if(b.dataset.f){S.fn=b.dataset.f;ctlView()}
+else if(b.dataset.ig){S.ig=b.dataset.ig;invView()}
+else if(b.dataset.sum){const r=R.find(x=>x.id===b.dataset.sum);ai("Summarize this record in 3 to 4 plain sentences for a fire safety engineer: what was tested, under what conditions, the result, and one caution about applying it to other gravity levels or atmospheres.\n\n"+recText(r),$("#sum_"+r.id),b,t=>SUM[r.id]=t)}
+else if(b.id==="brief"){const h=H[S.hab],k=S.hab+JSON.stringify(S.w),rk=rank().slice(0,8),cn=Object.keys(G).map(g=>G[g]+" "+R.filter(r=>r.g===+g).length).join(", ");
+ai(`Habitat: ${h.n}, target atmosphere ${h.p} kPa and ${h.o}% O2, gravity ${h.g.map(g=>G[g]).join(" or ")}.\nTop-ranked records (score out of 100):\n`+rk.map(e=>recText(e.r)+"; score "+e.t.toFixed(0)).join("\n")+`\nCoverage across all ${R.length} records by gravity: ${cn}.\nWrite a briefing of under 350 words with four parts: key findings, what to trust and what not to transfer, evidence gaps, and recommendations for materials, detection, and suppression.`,$("#bo"),b,t=>AIO[k]=t)}
+else if(b.id==="askb"){const q=$("#q").value.trim();if(!q)return;AIO.q=q;AIO.thread="";$("#ao").innerHTML="";ask2("Records:\n"+R.map(recText).join("\n")+"\n\nQuestion: "+q+"\nAnswer format: the first line is one short phrase (under 25 words) that directly answers the question, with a plain caveat if the evidence is thin. Then a blank line and the details in three plainly labeled parts, in exactly this order. Recommendation: what a fire safety engineer should do or check next, based on the similar experiments. Caution: where the evidence is thin or may not transfer between gravity levels, atmospheres, or experiment versus model. Similar experiments: the 1 to 3 most similar records, each cited as [ID] with its conditions, its result as recorded, and how it differs from what was asked. Finally, after a blank line, write the exact line \"Topics to explore:\" followed by 3 to 4 lines, each starting with \"- \" and a short title (under 8 words) naming a main point worth exploring further. Do not calculate new numbers or extrapolate beyond the records. If the records don’t answer the question, say so and name what evidence is missing.","Question: "+q,b)}
+else if(b.dataset.top){const t=b.dataset.top;ask2("Records:\n"+R.map(recText).join("\n")+"\n\nOriginal question: "+(AIO.q||"")+"\nThe user wants to explore this point further: "+t+"\nAnswer format: the first line is one short phrase (under 25 words) giving the key point. Then a blank line and three plainly labeled parts, in exactly this order: Recommendation, Caution, then Similar experiments (the relevant records, each cited as [ID] with its conditions and recorded result). Do not calculate new numbers or extrapolate beyond the records. Finally, after a blank line, write the exact line \"Topics to explore:\" followed by 3 to 4 lines, each starting with \"- \" and a short title (under 8 words) for a deeper point.","Exploring: "+t,b)}
+else if(b.id==="csvb"){const t=$("#csv");t.hidden=false;t.select();try{navigator.clipboard.writeText(t.value).then(()=>b.textContent="Copied",()=>b.textContent="Select and copy the text below")}catch(x){b.textContent="Select and copy the text below"}}});
+document.addEventListener("input",e=>{const t=e.target;
+if(t.dataset.w){S.w[t.dataset.w]=+t.value;$("#v_"+t.dataset.w).textContent=t.value;upd()}
+else if(t.dataset.g!==undefined){t.checked?S.gs.add(+t.dataset.g):S.gs.delete(+t.dataset.g);dataView()}});
+habs();tabs();
+</script>
+</body>
+</html>
