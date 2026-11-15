@@ -1,3 +1,5 @@
+export const config = { maxDuration: 60 };
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -16,7 +18,7 @@ export default async function handler(req, res) {
   // Try the main model, then a fallback if Google is overloaded.
   const main = process.env.GEMINI_MODEL || "gemini-3.8-flash";
   const fallback = process.env.GEMINI_FALLBACK_MODEL || "gemini-flash-latest";
-  const attempts = [main, main, fallback, fallback];
+  const attempts = [main, fallback];
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   let lastStatus = 500;
@@ -24,10 +26,13 @@ export default async function handler(req, res) {
 
   for (let i = 0; i < attempts.length; i++) {
     try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 24000);
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${attempts[i]}:generateContent`,
         {
           method: "POST",
+          signal: ctrl.signal,
           headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
           body: JSON.stringify({
             contents: [{ role: "user", parts: [{ text: prompt }] }],
@@ -36,6 +41,7 @@ export default async function handler(req, res) {
         }
       );
       const data = await response.json().catch(() => ({}));
+      clearTimeout(timer);
 
       if (response.ok && !data.error) {
         const text = (data.candidates?.[0]?.content?.parts || [])
@@ -55,7 +61,7 @@ export default async function handler(req, res) {
       // Only retry on overload / rate limit / server errors.
       if (![429, 500, 502, 503, 504].includes(response.status)) break;
     } catch (err) {
-      lastMsg = err.message;
+      lastMsg = err.name === "AbortError" ? "Gemini took too long to answer." : err.message;
     }
     if (i < attempts.length - 1) await sleep(700 * (i + 1));
   }
